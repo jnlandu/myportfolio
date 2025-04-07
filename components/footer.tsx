@@ -31,6 +31,9 @@ export function Footer() {
             <Link href="#about" className="text-sm hover:text-primary transition-colors">
               About
             </Link>
+            <Link href="#news" className="text-sm hover:text-primary transition-colors">
+              News
+            </Link>
             <Link href="#projects" className="text-sm hover:text-primary transition-colors">
               Projects
             </Link>

@@ -12,6 +12,7 @@ export function MainNav() {
   const routes = [
     { href: "#home", label: "Home" },
     { href: "#about", label: "About" },
+    { href: "#news", label: "News" },
     { href: "#projects", label: "Projects" },
     { href: "#publications", label: "Publications" },
     { href: "#education", label: "Education" },
