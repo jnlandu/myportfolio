@@ -4,127 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Play, Clock, Calendar, Eye, BookOpen } from "lucide-react"
-
-type BlogPost = {
-  id: string
-  title: string
-  excerpt: string
-  coverImage: string
-  date: string
-  readTime?: string
-  watchTime?: string
-  category: string
-  tags: string[]
-  type: "video" | "text"
-  views: number
-  featured?: boolean
-}
+import Link from "next/link"
+import { blogPosts, BlogPost } from "@/data/blog-posts"
 
 export function BlogSection() {
-  const blogPosts: BlogPost[] = [
-    {
-      id: "gaussian-processes-explained",
-      title: "Gaussian Processes Explained: A Visual Introduction",
-      excerpt:
-        "A comprehensive tutorial on understanding Gaussian Processes with interactive visualizations and practical examples.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "April 2, 2024",
-      readTime: "15 min read",
-      category: "Machine Learning",
-      tags: ["Gaussian Processes", "Statistics", "Tutorial", "Mathematics"],
-      type: "text",
-      views: 1245,
-      featured: true,
-    },
-    {
-      id: "deep-reinforcement-learning-tutorial",
-      title: "Deep Reinforcement Learning for Beginners: Video Tutorial Series",
-      excerpt:
-        "A step-by-step video tutorial series on implementing Deep Reinforcement Learning algorithms from scratch.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "March 15, 2024",
-      watchTime: "45 min watch",
-      category: "Reinforcement Learning",
-      tags: ["Deep Learning", "RL", "PyTorch", "Tutorial"],
-      type: "video",
-      views: 2389,
-      featured: true,
-    },
-    {
-      id: "functional-data-analysis",
-      title: "Introduction to Functional Data Analysis with R",
-      excerpt: "Learn the fundamentals of Functional Data Analysis and how to implement key techniques using R.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "February 28, 2024",
-      readTime: "12 min read",
-      category: "Statistics",
-      tags: ["FDA", "R", "Data Analysis", "Tutorial"],
-      type: "text",
-      views: 876,
-    },
-    {
-      id: "pytorch-for-researchers",
-      title: "PyTorch for Mathematical Researchers: Video Guide",
-      excerpt: "A comprehensive video guide on using PyTorch for implementing mathematical models in research.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "February 10, 2024",
-      watchTime: "35 min watch",
-      category: "Deep Learning",
-      tags: ["PyTorch", "Research", "Mathematics", "Tutorial"],
-      type: "video",
-      views: 1532,
-    },
-    {
-      id: "explainable-ai-techniques",
-      title: "Explainable AI Techniques: From Theory to Implementation",
-      excerpt: "Explore various techniques for making AI models more interpretable and transparent.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "January 25, 2024",
-      readTime: "18 min read",
-      category: "Explainable AI",
-      tags: ["XAI", "Ethics", "AI", "Tutorial"],
-      type: "text",
-      views: 1089,
-    },
-    {
-      id: "graph-neural-networks",
-      title: "Graph Neural Networks Explained: Video Tutorial",
-      excerpt: "A visual explanation of Graph Neural Networks with code examples and applications.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "January 12, 2024",
-      watchTime: "28 min watch",
-      category: "Deep Learning",
-      tags: ["GNN", "Graphs", "Neural Networks", "Tutorial"],
-      type: "video",
-      views: 1876,
-    },
-    {
-      id: "mathematical-foundations-ml",
-      title: "Mathematical Foundations of Machine Learning",
-      excerpt: "A deep dive into the essential mathematical concepts behind modern machine learning algorithms.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "December 18, 2023",
-      readTime: "20 min read",
-      category: "Mathematics",
-      tags: ["Linear Algebra", "Calculus", "Probability", "Tutorial"],
-      type: "text",
-      views: 2145,
-    },
-    {
-      id: "bayesian-methods-tutorial",
-      title: "Bayesian Methods in Machine Learning: Video Series",
-      excerpt: "Learn how to apply Bayesian methods to machine learning problems with practical examples.",
-      coverImage: "/placeholder.svg?height=600&width=1200",
-      date: "December 5, 2023",
-      watchTime: "50 min watch",
-      category: "Bayesian Statistics",
-      tags: ["Bayesian", "MCMC", "Probabilistic Models", "Tutorial"],
-      type: "video",
-      views: 1654,
-    },
-  ]
-
-  const featuredPosts = blogPosts.filter((post) => post.featured)
+  
+  const featuredPosts = blogPosts.filter((post: any) => post.featured)
 
   return (
     <section id="blog" className="py-20 bg-black/50">
@@ -187,7 +72,7 @@ export function BlogSection() {
                   <CardContent>
                     <p className="text-gray-400 mb-4">{post.excerpt}</p>
                     <div className="flex flex-wrap gap-2 mt-4">
-                      {post.tags.map((tag) => (
+                      {post.tags.map((tag: any) => (
                         <Badge key={tag} variant="secondary">
                           {tag}
                         </Badge>
@@ -199,7 +84,9 @@ export function BlogSection() {
                       <Eye className="h-4 w-4 mr-1" />
                       <span>{post.views.toLocaleString()} views</span>
                     </div>
-                    <Button size="sm">Read More</Button>
+                    <Link href={`/blog/${post.id}`} passHref>
+                      <Button size="sm" className="hover:bg-primary/80 transition-colors">Read More</Button>
+                    </Link>
                   </CardFooter>
                 </Card>
               ))}
@@ -239,9 +126,11 @@ export function BlogSection() {
         </Tabs>
 
         <div className="mt-12 text-center">
-          <Button variant="outline" size="lg">
-            View All Tutorials
-          </Button>
+          <Link href="/blog" passHref>
+            <Button variant="outline" size="lg" className="hover:bg-primary/10 hover:text-primary transition-colors">
+              View All Tutorials
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
