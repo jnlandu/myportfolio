@@ -10,7 +10,19 @@ export const metadata: Metadata = {
   title: "Jérémie N. Mabiala - AI Researcher & Mathematical Scientist",
   description:
     "Personal portfolio of Jérémie N. Mabiala, AI researcher and mathematician specializing in Machine Learning, Functional Data Analysis, and Mathematical Modeling",
-    generator: 'v0.dev'
+  keywords: [
+    "Jérémie N. Mabiala",
+    "Jérémie Mabiala",
+    "Jérémie Nlandu Mabiala",
+    "Jérémie Nlandu",
+    "Mabiala Jérémie",
+    "Mabiala Nlandu",
+    "AI Researcher",
+    "Mathematical Scientist",
+    "Machine Learning",
+    "Functional Data Analysis",
+    "Mathematical Modeling",
+  ]
 }
 
 export default function RootLayout({
@@ -23,6 +35,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
+          <ChatButton />
         </ThemeProvider>
       </body>
     </html>
@@ -32,3 +45,4 @@ export default function RootLayout({
 
 
 import './globals.css'
+import { ChatButton } from "@/components/chat-button"
