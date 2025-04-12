@@ -32,10 +32,10 @@ export function AboutSection() {
 
             <p>
               <span className="text-primary font-medium">Welcome!</span> I am Jérémie N. Mabiala. If you're from an
-              English-speaking culture, you can call me Jeremy. I am currently a student in Artificial Intelligence at
-              the African Masters in Machine Intelligence (<span className="text-primary">AMMI</span>), a pan-African
-              master's program in Artificial Intelligence founded by Google and Meta, hosted at AIMS Senegal. I am an AI
-              enthusiast and a math lover.
+              English-speaking culture, you can call me Jeremy. I am currently a <b> <span className="text-primary">resident tutor </span> </b> in Artificial Intelligence at
+              the <b> African Masters in Machine Intelligence </b> (<span className="text-primary">AMMI</span>), a pan-African
+              flagship master's program in Artificial Intelligence founded by Google and Meta, hosted at the African Institute for Mathematical Sciences,(AIMS) Senegal. I am an AI
+              enthusiast and math lover.
             </p>
 
             <p>
@@ -56,8 +56,7 @@ export function AboutSection() {
             </p>
 
             <p>
-              I am passionate about teaching, gaining knowledge, and sharing it with others. I believe this passion
-              comes from my father and grandfather, who were both teachers. I am particularly interested in{" "}
+              I am passionate about teaching, gaining knowledge, and sharing it with others.  I am particularly interested in{" "}
               <strong>Mathematics, Theoretical Aspects of Machine Learning and/or Deep Learning</strong> and their
               applications. My interests also extend to <strong>Mathematical Modeling, Functional Data Analysis</strong>
               , Large Language Models, and Reinforcement Learning.
