@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.jmabiala.com/</loc>
+    <lastmod>2025-04-12</lastmod> <!-- Update this date when the page content changes -->
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Blog Index Page -->
+  <url>
+    <loc>https://www.jmabiala.com/blog</loc>
+    <lastmod>2025-04-12</lastmod> <!-- Update this date when new blog posts are added -->
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Individual Blog Posts (Add entries for each post) -->
+  <!-- Example using your mock data -->
+  <url>
+    <loc>https://www.jmabiala.com/blog/gaussian-processes-explained</loc>
+    <lastmod>2024-04-02</lastmod> <!-- Use the post's publication or update date -->
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.jmabiala.com/blog/deep-reinforcement-learning-tutorial</loc>
+    <lastmod>2024-03-15</lastmod> <!-- Use the post's publication or update date -->
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<!-- Add more blog posts -->
+<url>
+    <loc>https://www.jmabiala.com/blog/machine-learning-fundamentals</loc>
+    <lastmod>2024-02-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.jmabiala.com/blog/python-data-science-libraries</loc>
+    <lastmod>2024-02-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>https://www.jmabiala.com/blog/neural-networks-explained</loc>
+    <lastmod>2024-01-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+</url>
+
+<!-- Other important pages -->
+<url>
+    <loc>https://www.jmabiala.com/about</loc>
+    <lastmod>2024-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>https://www.jmabiala.com/projects</loc>
+    <lastmod>2024-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+</url>
+<url>
+    <loc>https://www.jmabiala.com/contact</loc>
+    <lastmod>2024-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+</url>
+
+</urlset>

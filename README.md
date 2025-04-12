@@ -73,6 +73,3 @@ And other section components for additional content
 
 ## License
 MIT
-```
-Feel free to customize this README with more specific details about your portfolio website!Feel free to customize this README with more specific details about your portfolio website!
-```

@@ -1,0 +1,15 @@
+# Standard for AI data scraping prevention
+User-agent: *
+Allow: /
+
+# Specific AI crawlers (optional, but good practice)
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Add other specific AI bot user agents as needed
