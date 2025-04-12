@@ -1,0 +1,10 @@
+# Allow all web crawlers access to all content
+User-agent: *
+Allow: /
+
+# Disallow crawling of Next.js specific build/dev folders (usually handled by hosting platform, but good practice)
+Disallow: /_next/
+Disallow: /api/
+
+# Location of sitemap file
+Sitemap: https://www.jmabiala.com/sitemap.xml
