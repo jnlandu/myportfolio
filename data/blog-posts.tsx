@@ -29,49 +29,6 @@ export const blogPosts: BlogPost[] = [
         type: "text",
         views: 1245,
         featured: true,
-        content: `
-        ## Introduction to Gaussian Processes
-        
-        Gaussian Processes (GPs) are a powerful and elegant approach to machine learning that provide a principled, practical, and probabilistic approach to learning in kernel machines. They define a distribution over functions which can be used for Bayesian regression, classification and other tasks.
-        
-        ## The Mathematics Behind Gaussian Processes
-        
-        At the heart of Gaussian Processes is the multivariate Gaussian distribution. A Gaussian Process is a collection of random variables, any finite number of which have a joint Gaussian distribution. A GP is completely specified by its mean function $m(x)$ and covariance function $k(x, x')$.
-        
-        \`\`\`python
-        import numpy as np
-        from sklearn.gaussian_process import GaussianProcessRegressor
-        from sklearn.gaussian_process.kernels import RBF
-        
-        # Define the kernel
-        kernel = 1.0 * RBF(length_scale=1.0)
-        
-        # Create GP regressor
-        gp = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=10)
-        
-        # Generate sample data
-        X = np.linspace(0, 5, 10).reshape(-1, 1)
-        y = np.sin(X).ravel() + 0.1 * np.random.randn(10)
-        
-        # Fit the model
-        gp.fit(X, y)
-        \`\`\`
-        
-        ## Applications in Machine Learning
-        
-        Gaussian Processes are particularly useful for regression problems, optimization, and in active learning scenarios. They provide not just predictions but also uncertainty estimates, which is crucial in many applications.
-        
-        ![Gaussian Process Visualization](/placeholder.svg?height=400&width=600)
-        
-        ## Implementation Example
-        
-        Here's how you might implement a simple GP regression in Python using scikit-learn:
-        
-        1. Choose an appropriate kernel
-        2. Create a GP regressor
-        3. Fit the model to your data
-        4. Make predictions with uncertainty estimates
-            `,
       },
       {
         id: "2",
