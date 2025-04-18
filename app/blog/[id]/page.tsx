@@ -1,8 +1,8 @@
-"use client"
+// Removed "use client" - This is now a Server Component
 
-import { useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
+import { notFound } from "next/navigation" // Import notFound
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, BookOpen, Eye, ArrowLeft } from "lucide-react"
@@ -11,25 +11,41 @@ import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
 import rehypeSanitize from "rehype-sanitize"
 import rehypeHighlight from "rehype-highlight"
-import "highlight.js/styles/github-dark.css" // Choose a syntax highlighting theme
-import { blogPosts } from "@/data/blog-posts"
+import "highlight.js/styles/github-dark.css" 
 
+// Import the data fetching functions
+import { getPostData, getAllPostIds, PostData } from "@/lib/posts" 
+// import { use } from "react"
 
-export default function BlogPostPage() {
-  const { id } = useParams() as { id: string }
-  const post = blogPosts.find((post) => post.id === id)
+// Function to generate static paths at build time
+export async function generateStaticParams() {
+  const paths = getAllPostIds()
+  return paths 
+  // Example return: [{ id: 'gaussian-processes' }, { id: 'another-post' }]
+}
 
-  if (!post) {
-    return (
-      <div className="container py-20 text-center">
-        <h1 className="text-3xl font-bold mb-4">Blog Post Not Found</h1>
-        <p className="mb-8">The blog post you're looking for doesn't exist.</p>
-        <Link href="/blog">
-          <Button>Back to All Blogs</Button>
-        </Link>
-      </div>
-    )
+// Define props type including params
+type BlogPostPageProps = {
+  params: Promise<{
+    id: string
+  }>
+}
+
+// The page component now accepts params directly
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { id } =  await params
+  let post: PostData;
+
+  try {
+    // Fetch post data using the utility function
+    post = getPostData(id) 
+  } catch (error) {
+    // If getPostData throws an error (e.g., file not found), trigger a 404
+    console.error(`Error fetching post ${id}:`, error);
+    notFound();
   }
+
+  // No need for the client-side find logic anymore
 
   return (
     <main className="bg-black text-white min-h-screen pt-24 pb-20">
@@ -41,6 +57,7 @@ export default function BlogPostPage() {
 
         {/* Hero section */}
         <div className="relative aspect-video w-full mb-8 rounded-lg overflow-hidden">
+          {/* Use post.coverImage */}
           <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
           
@@ -54,33 +71,39 @@ export default function BlogPostPage() {
 
         {/* Post header */}
         <div className="mb-8">
+          {/* Use post.title */}
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-primary">{post.title}</h1>
           
           <div className="flex flex-wrap gap-4 text-gray-400 mb-6">
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-2" />
-              <span>{post.date}</span>
+              {/* Use post.date */}
+              <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             </div>
             
             {post.type === "video" ? (
               <div className="flex items-center">
                 <Clock className="h-4 w-4 mr-2" />
+                {/* Use post.watchTime */}
                 <span>{post.watchTime}</span>
               </div>
             ) : (
               <div className="flex items-center">
                 <BookOpen className="h-4 w-4 mr-2" />
+                {/* Use post.readTime */}
                 <span>{post.readTime}</span>
               </div>
             )}
             
             <div className="flex items-center">
               <Eye className="h-4 w-4 mr-2" />
+              {/* Use post.views */}
               <span>{post.views.toLocaleString()} views</span>
             </div>
           </div>
           
           <div className="flex flex-wrap gap-2">
+            {/* Use post.tags */}
             {post.tags.map((tag) => (
               <Badge key={tag} variant="secondary">
                 {tag}
@@ -106,20 +129,22 @@ export default function BlogPostPage() {
         )}
 
         {/* Post content with Markdown */}
+        {/* Use post.content */}
         <div className="prose prose-invert prose-headings:text-primary prose-a:text-blue-400 prose-code:bg-gray-800 prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-800 prose-img:rounded-lg max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
           >
-            {post.content || ''}
+            {post.content} 
           </ReactMarkdown>
         </div>
         
-        {/* Share and navigation */}
+        {/* Share and navigation (remains the same) */}
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between gap-4">
           <div>
             <h3 className="font-medium mb-2">Share this post</h3>
             <div className="flex gap-2">
+              {/* Add actual sharing links here */}
               <Button size="icon" variant="outline">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
               </Button>
