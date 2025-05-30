@@ -42,12 +42,13 @@ export function HeroSection() {
               <span className="text-primary">Hello, I'm</span>
               <div className="script-font text-5xl md:text-7xl mt-2">Jérémie N. Mabiala</div>
             </h1>
-            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI Researcher & Mathematical Scientist</h2>
+            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI/ML enthusiast, Mathematician.</h2>
           </div>
 
           <p className="text-gray-300 text-lg">
-            Exploring the intersection of Mathematics, Deep Learning, and Explainable AI to build transparent and
-            ethical AI systems.
+
+            Originally from Pure Math background, I am now a resident tutor in Artificial Intelligence at the African Masters in Machine Intelligence (AMMI) program.
+            <br />
           </p>
 
           <div className="flex gap-4 mt-2">
