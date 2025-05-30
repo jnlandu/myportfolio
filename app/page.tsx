@@ -62,7 +62,7 @@ export default function Home() {
       <div
         className="fixed inset-0 bg-cover bg-center opacity-10 z-0 pointer-events-none"
         style={{
-          backgroundImage: "url('/images/profile.png')",
+          backgroundImage: "url('/images/profile.jpg')",
           transform: `translateY(${scrollY * 0.5}px)`,
           filter: "blur(8px) brightness(0.3)",
         }}

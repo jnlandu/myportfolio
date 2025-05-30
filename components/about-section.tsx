@@ -22,7 +22,7 @@ export function AboutSection() {
           <div className="space-y-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary/30 flex-shrink-0">
-                <Image src="/images/profile.jpeg" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
+                <Image src="/images/profile.jpg" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
               </div>
               <div>
                 <h3 className="text-xl font-semibold">Jérémie N. Mabiala</h3>

@@ -82,7 +82,7 @@ export function HeroSection() {
           className="relative mx-auto"
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/30">
-            <Image src="/images/jere.png" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
+            <Image src="/images/profile.jpg" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
           </div>
           <div className="absolute -bottom-4 -right-4 bg-background p-3 rounded-full border border-border">
             <div className="bg-primary/20 p-2 rounded-full">
