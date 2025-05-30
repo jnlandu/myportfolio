@@ -118,7 +118,7 @@ export function ChatButton() {
               <Avatar className="h-12 w-12 border-2 border-white">
                 <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white font-bold">J</div>
                 {/* <Image
-                  src="/images/profile.png"
+                  src="/images/profile.jpg"
                   alt="Jérémie N. Mabiala"
                   width={48}
                   height={48}
@@ -182,7 +182,7 @@ export function ChatButton() {
           <div className="p-4 border-b border-border bg-black/50 backdrop-blur-sm flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="border-2 border-primary">
-                <AvatarImage src="/images/profile.png" alt="Jérémie N. Mabiala" />
+                <AvatarImage src="/images/profile.jpg" alt="Jérémie N. Mabiala" />
                 <AvatarFallback>JM</AvatarFallback>
               </Avatar>
               <div>

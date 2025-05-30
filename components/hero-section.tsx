@@ -42,12 +42,13 @@ export function HeroSection() {
               <span className="text-primary">Hello, I'm</span>
               <div className="script-font text-5xl md:text-7xl mt-2">Jérémie N. Mabiala</div>
             </h1>
-            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI Researcher & Mathematical Scientist</h2>
+            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI/ML enthusiast, Mathematician.</h2>
           </div>
 
           <p className="text-gray-300 text-lg">
-            Exploring the intersection of Mathematics, Deep Learning, and Explainable AI to build transparent and
-            ethical AI systems.
+
+            Originally from Pure Math background, I am now a resident tutor in Artificial Intelligence at the African Masters in Machine Intelligence (AMMI) program.
+            <br />
           </p>
 
           <div className="flex gap-4 mt-2">
@@ -82,7 +83,7 @@ export function HeroSection() {
           className="relative mx-auto"
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/30">
-            <Image src="/images/jere.png" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
+            <Image src="/images/profile.jpg" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
           </div>
           <div className="absolute -bottom-4 -right-4 bg-background p-3 rounded-full border border-border">
             <div className="bg-primary/20 p-2 rounded-full">
