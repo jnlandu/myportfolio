@@ -70,13 +70,13 @@ export default function Home() {
 
       <HeroSection />
       <AboutSection />
-      <NewsSection />
+      {/* <NewsSection /> */}
       <ProjectsSection />
-      <PublicationsSection />
-      <EducationSection />
-      <SkillsSection />
-      <MotivationsSection />
-      <CitationsSection />
+      {/* <PublicationsSection /> */}
+      {/* <EducationSection /> */}
+      {/* <SkillsSection /> */}
+      {/* <MotivationsSection /> */}
+      {/* <CitationsSection /> */}
       <BlogSection />
       <ContactSection />
       <Footer />

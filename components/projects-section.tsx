@@ -325,7 +325,7 @@ export function ProjectsSection() {
               </CardContent>
               <CardFooter>
                 <Button size="sm" className="gap-2" asChild>
-                  <Link href="#">
+                  <Link href="/gallery">
                     <ExternalLink className="h-4 w-4" />
                     <span>View Gallery</span>
                   </Link>

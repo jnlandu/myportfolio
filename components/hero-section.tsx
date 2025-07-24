@@ -32,58 +32,13 @@ export function HeroSection() {
 
       <div className="container relative z-10 grid md:grid-cols-2 gap-8 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col gap-6"
-        >
-          <div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              <span className="text-primary">Hello, I'm</span>
-              <div className="script-font text-5xl md:text-7xl mt-2">Jérémie N. Mabiala</div>
-            </h1>
-            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI/ML enthusiast, Mathematician.</h2>
-          </div>
-
-          <p className="text-gray-300 text-lg">
-
-            Originally from Pure Math background, I am now a resident tutor in Artificial Intelligence at the African Masters in Machine Intelligence (AMMI) program.
-            <br />
-          </p>
-
-          <div className="flex gap-4 mt-2">
-            <Button asChild>
-              <Link href="#projects">View My Work</Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="#contact">Contact Me</Link>
-            </Button>
-          </div>
-
-          <div className="flex gap-4 mt-4">
-            <Link href="#" aria-label="Email">
-              <Mail className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
-            </Link>
-            <Link href="#" aria-label="Twitter">
-              <Twitter className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
-            </Link>
-            <Link href="#" aria-label="LinkedIn">
-              <Linkedin className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
-            </Link>
-            <Link href="#" aria-label="GitHub">
-              <Github className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
-            </Link>
-          </div>
-        </motion.div>
-
-        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="relative mx-auto"
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/30">
-            <Image src="/images/profile.jpg" alt="Jérémie N. Mabiala" fill className="object-cover object-center" />
+            <Image src="/images/profile.jpg" alt="Jeremy N. Mabiala" fill className="object-cover object-center" />
           </div>
           <div className="absolute -bottom-4 -right-4 bg-background p-3 rounded-full border border-border">
             <div className="bg-primary/20 p-2 rounded-full">
@@ -115,6 +70,53 @@ export function HeroSection() {
             </div>
           </div>
         </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col gap-6"
+        >
+          <div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              <span className="text-primary">Hello, I'm</span>
+              <div className="script-font text-5xl md:text-7xl mt-2">Jérémie N. Mabiala</div>
+            </h1>
+            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI/ML enthusiast, Mathematician.</h2>
+          </div>
+
+          <p className="text-gray-300 text-lg">
+
+            From Pure Math background to Artificial Intelligence, I'm currently a resident tutor in Artificial Intelligence at the African Masters in Machine Intelligence (AMMI) program.
+            <br />
+          </p>
+
+          <div className="flex gap-4 mt-2">
+            <Button asChild>
+              <Link href="#projects">View My Work</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="#contact">Contact Me</Link>
+            </Button>
+          </div>
+
+          <div className="flex gap-4 mt-4">
+            <Link href="#" aria-label="Email">
+              <Mail className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
+            </Link>
+            <Link href="#" aria-label="Twitter">
+              <Twitter className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
+            </Link>
+            <Link href="#" aria-label="LinkedIn">
+              <Linkedin className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
+            </Link>
+            <Link href="#" aria-label="GitHub">
+              <Github className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
+            </Link>
+          </div>
+        </motion.div>
+
+        
       </div>
 
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
