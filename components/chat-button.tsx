@@ -116,23 +116,23 @@ export function ChatButton() {
           <div className="relative">
             <div className="absolute -top-6 left-4 flex -space-x-3">
               <Avatar className="h-12 w-12 border-2 border-white">
-                <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white font-bold">J</div>
-                {/* <Image
+                {/* <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white font-bold">J</div> */}
+                <Image
                   src="/images/profile.jpg"
                   alt="Jérémie N. Mabiala"
                   width={48}
                   height={48}
                   className="object-cover"
-                /> */}
+                />
               </Avatar>
-              <Avatar className="h-12 w-12 border-2 border-white">
+              {/* <Avatar className="h-12 w-12 border-2 border-white">
                 <div className="bg-blue-500 w-full h-full flex items-center justify-center text-white font-bold">M</div>
               </Avatar>
               <Avatar className="h-12 w-12 border-2 border-white">
                 <div className="bg-green-500 w-full h-full flex items-center justify-center text-white font-bold">
                   N
                 </div>
-              </Avatar>
+              </Avatar> */}
             </div>
             <Button
               variant="ghost"
@@ -156,7 +156,7 @@ export function ChatButton() {
                   onClick={() => setIsOpen(true)} 
                   className="w-full bg-primary hover:bg-primary/90"
                 >
-                  Ask me anything
+                  Ask  About Me
                 </Button>
               </div>
             </div>

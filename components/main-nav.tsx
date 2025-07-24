@@ -12,15 +12,15 @@ export function MainNav() {
   const routes = [
     { href: "#home", label: "Home" },
     { href: "#about", label: "About" },
-    { href: "#news", label: "News" },
+    // { href: "#news", label: "News" },
     { href: "#projects", label: "Projects" },
-    { href: "#publications", label: "Publications" },
-    { href: "#education", label: "Education" },
-    { href: "#skills", label: "Skills" },
-    { href: "#motivations", label: "Motivations" },
-    { href: "#citations", label: "Citations" },
+    // { href: "#publications", label: "Publications" },
+    // { href: "#education", label: "Education" },
+    // { href: "#skills", label: "Skills" },
+    // { href: "#motivations", label: "Motivations" },
+    // { href: "#citations", label: "Citations" },
     { href: "#blog", label: "Blog" },
-    { href: "#contact", label: "Contact" },
+    // { href: "#contact", label: "Contact" },
   ]
 
   return (
