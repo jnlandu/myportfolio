@@ -114,9 +114,9 @@ export function ChatButton() {
     {isGreetingVisible && !isOpen && (
         <div className="fixed bottom-24 right-6 z-40 max-w-xs md:max-w-sm animate-fade-in">
           <div className="relative">
-            <div className="absolute -top-6 left-4 flex -space-x-3">
+            {/* <div className="absolute -top-6 left-4 flex -space-x-3">
               <Avatar className="h-12 w-12 border-2 border-white">
-                {/* <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white font-bold">J</div> */}
+                <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white font-bold">J</div>
                 <Image
                   src="/images/profile.jpg"
                   alt="Jérémie N. Mabiala"
@@ -125,24 +125,24 @@ export function ChatButton() {
                   className="object-cover"
                 />
               </Avatar>
-              {/* <Avatar className="h-12 w-12 border-2 border-white">
+              <Avatar className="h-12 w-12 border-2 border-white">
                 <div className="bg-blue-500 w-full h-full flex items-center justify-center text-white font-bold">M</div>
               </Avatar>
               <Avatar className="h-12 w-12 border-2 border-white">
                 <div className="bg-green-500 w-full h-full flex items-center justify-center text-white font-bold">
                   N
                 </div>
-              </Avatar> */}
-            </div>
-            <Button
+              </Avatar>
+            </div> */}
+            {/* <Button
               variant="ghost"
               size="icon"
               className="absolute -top-6 right-2 h-8 w-8 rounded-full bg-gray-400 text-white hover:bg-gray-500"
               onClick={closeGreeting}
             >
               <X className="h-4 w-4" />
-            </Button>
-            <div className="bg-white text-gray-800 rounded-3xl p-6 pt-8 shadow-lg border border-gray-200">
+            </Button> */}
+            {/* <div className="bg-white text-gray-800 rounded-3xl p-6 pt-8 shadow-lg border border-gray-200">
                 <p className="text-lg">Hi 👋 I'm Jérémie's virtual assistant</p>
                 <p className="mt-2">I can answer questions about:</p>
                 <ul className="mt-2 space-y-1 list-disc list-inside">
@@ -159,7 +159,7 @@ export function ChatButton() {
                   Ask  About Me
                 </Button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
@@ -183,11 +183,12 @@ export function ChatButton() {
             <div className="flex items-center gap-3">
               <Avatar className="border-2 border-primary">
                 <AvatarImage src="/images/profile.jpg" alt="Jérémie N. Mabiala" />
-                <AvatarFallback>JM</AvatarFallback>
+                {/* <AvatarFallback>JM</AvatarFallback> */}
               </Avatar>
               <div>
                 <h3 className="font-medium flex items-center gap-1.5">
                   <Bot className="h-4 w-4 text-primary" /> {/* Bot icon */}
+                  
                   Ask Jérémie's Assistant
                 </h3>
                 <p className="text-xs text-gray-400">Ready to answer your questions</p>
