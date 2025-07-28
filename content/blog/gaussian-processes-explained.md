@@ -32,7 +32,7 @@ Where:
 
 Example :
 $$
-\text{This is a block-level equation:} \\
+\text{This is a block-level equation:} \quad
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 $$
 
@@ -50,8 +50,7 @@ $$
 
 Test Latex code for the Simpson method:
 $$
-
-∫ab​f(x)dx ≈ (Δx/3) * [f(x0) + 4f(x1) + 2f(x2) + 4f(x3) + ... + 2f(xn-2) + 4f(xn-1) + f(xn)]
+\int_a^b f(x)dx \approx \frac{\Delta x}{3} \left[f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + \ldots + 2f(x_{n-2}) + 4f(x_{n-1}) + f(x_n)\right]
 $$
 
 
@@ -100,6 +99,8 @@ Where:
 - $\mathbf{K}_*$ is the $n \times m$ cross-covariance matrix between training and test points
 - $\mathbf{K}_{**}$ is the $m \times m$ covariance matrix of test points
 
+![Gaussian Process Visualization](/images/blog/gp-visualization.png)
+*Figure 1: A Gaussian Process with RBF kernel showing the mean prediction (blue line) and uncertainty bands (shaded area). The red dots represent training data points.*
 ## Key Properties
 
 1. **Flexible non-parametric model**: GPs don't assume a fixed functional form
@@ -107,6 +108,11 @@ Where:
 3. **Kernel-based**: The choice of kernel determines the properties of functions we're modeling
 
 ## Common Kernels
+
+The choice of kernel function is crucial as it encodes our assumptions about the function we're modeling. Here are some popular kernels:
+
+![Kernel Comparison](/images/blog/gp-kernels-comparison.png)
+*Figure 2: Comparison of common GP kernels showing their covariance functions.*
 
 ### RBF (Radial Basis Function) Kernel
 ```python
