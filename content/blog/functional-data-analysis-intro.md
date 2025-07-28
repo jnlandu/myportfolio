@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Functional Data Analysis with R"
 excerpt: "Learn the fundamentals of Functional Data Analysis and how to implement key techniques using R."
-coverImage: "/images/blog/functional-data-analysis.jpg"
+coverImage: "/placeholder.svg"
 date: "2024-02-28"
 readTime: "12 min read"
 category: "Statistics"
