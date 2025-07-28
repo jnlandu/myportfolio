@@ -1,0 +1,78 @@
+/* KaTeX Dark Theme Styling */
+.katex-display {
+  margin: 1.5rem 0 !important;
+  padding: 1rem;
+  background-color: rgba(31, 41, 55, 0.5);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(75, 85, 99, 0.5);
+  overflow-x: auto;
+}
+
+.katex {
+  color: #f3f4f6 !important;
+  font-size: 1.1em;
+}
+
+.katex .mord {
+  color: #f3f4f6 !important;
+}
+
+.katex .mrel {
+  color: #60a5fa !important; /* Blue for relations like = */
+}
+
+.katex .mop {
+  color: #34d399 !important; /* Green for operators */
+}
+
+.katex .mbin {
+  color: #fbbf24 !important; /* Yellow for binary operators */
+}
+
+.katex .mpunct {
+  color: #d1d5db !important; /* Light gray for punctuation */
+}
+
+.katex .mopen, 
+.katex .mclose {
+  color: #a78bfa !important; /* Purple for brackets */
+}
+
+.katex .mfrac .frac-line {
+  border-bottom-color: #9ca3af !important;
+}
+
+.katex .sqrt > .root {
+  color: #34d399 !important;
+}
+
+.katex .vlist-t {
+  color: #f3f4f6 !important;
+}
+
+.katex .base {
+  color: #f3f4f6 !important;
+}
+
+/* Matrix styling */
+.katex .mord.mtable .arraycolsep {
+  color: #f3f4f6 !important;
+}
+
+.katex .mord.mtable .col-align-c > .vlist-t > .vlist-r > .vlist > span {
+  color: #f3f4f6 !important;
+}
+
+/* Ensure math content is scrollable on small screens */
+.katex-html {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Math in inline context */
+.katex-inline {
+  color: #34d399 !important;
+  background-color: rgba(31, 41, 55, 0.3);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
