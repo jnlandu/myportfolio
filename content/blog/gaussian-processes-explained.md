@@ -30,37 +30,75 @@ Where:
 - $m(x) = \mathbb{E}[f(x)]$ is the mean function
 - $k(x, x') = \mathbb{E}[(f(x) - m(x))(f(x') - m(x'))]$ is the covariance function
 
+Example :
+$$
+\text{This is a block-level equation:} \\
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
 
-The covariance matrix $\mathbf{K}$ can be written explicitly as:
 
-$$\mathbf{K} = \begin{pmatrix}
-k(x_1, x_1) & k(x_1, x_2) & \cdots & k(x_1, x_n) \\
-k(x_2, x_1) & k(x_2, x_2) & \cdots & k(x_2, x_n) \\
-\vdots & \vdots & \ddots & \vdots \\
-k(x_n, x_1) & k(x_n, x_2) & \cdots & k(x_n, x_n)
-\end{pmatrix}$$
+Example of Matrix rendering:
+$$
+\begin{pmatrix}
+\begin{array}{c|c}
+A & B \\
+\hline
+C & D
+\end{array}
+\end{pmatrix}
+$$
 
-This matrix is symmetric since $k(x_i, x_j) = k(x_j, x_i)$ for most commonly used kernels, and positive semi-definite by construction.
+Test Latex code for the Simpson method:
+$$
 
-For a finite set of input points $\mathbf{X} = \{x_1, x_2, \ldots, x_n\}$, the corresponding function values $\mathbf{f} = [f(x_1), f(x_2), \ldots, f(x_n)]^T$ follow a multivariate Gaussian distribution:
+∫ab​f(x)dx ≈ (Δx/3) * [f(x0) + 4f(x1) + 2f(x2) + 4f(x3) + ... + 2f(xn-2) + 4f(xn-1) + f(xn)]
+$$
+
+
+
+### Matrix Notation
+
+For a finite set of input points $\mathbf{X} = \{x_1, x_2, \ldots, x_n\}$, we can represent the Gaussian Process in matrix form:
 
 $$\mathbf{f} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K})$$
 
 Where:
+- $\mathbf{f} = [f(x_1), f(x_2), \ldots, f(x_n)]^T$ is the vector of function values
 - $\boldsymbol{\mu} = [m(x_1), m(x_2), \ldots, m(x_n)]^T$ is the mean vector
-- $\mathbf{K}$ is the $n \times n$ covariance matrix with $K_{ij} = k(x_i, x_j)$
+- $\mathbf{K}$ is the $n \times n$ covariance matrix with entries $K_{ij} = k(x_i, x_j)$
 
-### Marginal Likelihood
+The covariance matrix has the form:
+$$
+\mathbf{K} = \begin{pmatrix}
+k(x_1, x_1) & k(x_1, x_2) & \cdots & k(x_1, x_n) \\
+k(x_2, x_1) & k(x_2, x_2) & \cdots & k(x_2, x_n) \\
+\vdots & \vdots & \ddots & \vdots \\
+k(x_n, x_1) & k(x_n, x_2) & \cdots & k(x_n, x_n)
+\end{pmatrix}
+$$
 
-The marginal likelihood (evidence) for hyperparameter optimization is given by:
+For predictions at test points $\mathbf{X}_* = \{x_{*1}, x_{*2}, \ldots, x_{*m}\}$, the joint distribution is:
 
-$$p(\mathbf{y}|\mathbf{X}, \boldsymbol{\theta}) = \int p(\mathbf{y}|\mathbf{f})p(\mathbf{f}|\mathbf{X}, \boldsymbol{\theta}) d\mathbf{f}$$
+$$
+\begin{pmatrix}
+\mathbf{f} \\
+\mathbf{f}_*
+\end{pmatrix}
+\sim \mathcal{N}\left(
+\begin{pmatrix}
+\boldsymbol{\mu} \\
+\boldsymbol{\mu}_*
+\end{pmatrix},
+\begin{pmatrix}
+\mathbf{K} & \mathbf{K}_* \\
+\mathbf{K}_*^T & \mathbf{K}_{**}
+\end{pmatrix}
+\right)
+$$
 
-For Gaussian noise, this integral has a closed-form solution:
-
-$$\log p(\mathbf{y}|\mathbf{X}, \boldsymbol{\theta}) = -\frac{1}{2}\mathbf{y}^T(\mathbf{K} + \sigma_n^2\mathbf{I})^{-1}\mathbf{y} - \frac{1}{2}\log|\mathbf{K} + \sigma_n^2\mathbf{I}| - \frac{n}{2}\log(2\pi)$$
-
-
+Where:
+- $\mathbf{K}_*$ is the $n \times m$ cross-covariance matrix between training and test points
+- $\mathbf{K}_{**}$ is the $m \times m$ covariance matrix of test points
 
 ## Key Properties
 

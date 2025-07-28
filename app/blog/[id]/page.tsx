@@ -14,6 +14,7 @@ import rehypeKatex from "rehype-katex"
 import rehypeHighlight from "rehype-highlight"
 import "highlight.js/styles/github-dark.css"
 import "katex/dist/katex.min.css" 
+import "@/styles/katex-dark.css" 
 import { JsonLd } from "@/components/json-ld"
 import { generateBlogSEO, siteConfig } from "@/lib/seo"
 
@@ -181,9 +182,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               code: ({node, inline, className, children, ...props}: any) => {
                 const match = /language-(\w+)/.exec(className || '')
                 return !inline ? (
-                  <div className="relative">
+                  <div className="relative mb-4">
                     <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 overflow-x-auto">
-                      <code className={`${className} text-sm`} {...props}>
+                      <code className={`${className} text-sm text-gray-100`} {...props}>
                         {children}
                       </code>
                     </pre>
@@ -201,6 +202,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
               em: ({node, ...props}) => <em className="italic text-gray-300" {...props} />,
               a: ({node, ...props}) => <a className="text-blue-400 hover:text-blue-300 underline" {...props} />,
+              // Ensure math blocks are properly styled
+              div: ({node, className, ...props}) => {
+                if (className === 'math math-display') {
+                  return <div className="katex-display my-6 text-center overflow-x-auto" {...props} />
+                }
+                return <div className={className} {...props} />
+              },
+              span: ({node, className, ...props}) => {
+                if (className === 'math math-inline') {
+                  return <span className="katex-inline" {...props} />
+                }
+                return <span className={className} {...props} />
+              }
             }}
           >
             {post.content} 
