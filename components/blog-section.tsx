@@ -5,11 +5,34 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Play, Clock, Calendar, Eye, BookOpen } from "lucide-react"
 import Link from "next/link"
-import { blogPosts, BlogPost } from "@/data/blog-posts"
+import { BlogPost } from "@/lib/blog"
 
-export function BlogSection() {
+interface BlogSectionProps {
+  posts?: BlogPost[]
+}
+
+export function BlogSection({ posts = [] }: BlogSectionProps) {
   
-  const featuredPosts = blogPosts.filter((post: any) => post.featured)
+  const featuredPosts = posts.filter((post: BlogPost) => post.featured)
+  
+  // If no posts are provided, show a loading or empty state
+  if (posts.length === 0) {
+    return (
+      <section id="blog" className="py-20 bg-black/50">
+        <div className="container">
+          <div className="flex flex-col items-center text-center mb-12">
+            <Badge variant="outline" className="mb-4">
+              Knowledge Sharing
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Blog & Tutorials</h2>
+            <p className="text-gray-400 max-w-2xl">
+              Loading blog posts...
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="blog" className="py-20 bg-black/50">
@@ -30,7 +53,7 @@ export function BlogSection() {
           <div className="mb-16">
             <h3 className="text-xl font-semibold mb-6">Featured Tutorials</h3>
             <div className="grid md:grid-cols-2 gap-6">
-              {featuredPosts.map((post) => (
+              {featuredPosts.map((post: BlogPost) => (
                 <Card key={post.id} className="bg-black/50 border-primary/20 overflow-hidden">
                   <div className="relative aspect-video">
                     <Image src={post.coverImage || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
@@ -103,23 +126,23 @@ export function BlogSection() {
           </TabsList>
 
           <TabsContent value="all" className="grid md:grid-cols-3 gap-6">
-            {blogPosts.map((post) => (
+            {posts.map((post: BlogPost) => (
               <BlogPostCard key={post.id} post={post} />
             ))}
           </TabsContent>
 
           <TabsContent value="video" className="grid md:grid-cols-3 gap-6">
-            {blogPosts
-              .filter((post) => post.type === "video")
-              .map((post) => (
+            {posts
+              .filter((post: BlogPost) => post.type === "video")
+              .map((post: BlogPost) => (
                 <BlogPostCard key={post.id} post={post} />
               ))}
           </TabsContent>
 
           <TabsContent value="text" className="grid md:grid-cols-3 gap-6">
-            {blogPosts
-              .filter((post) => post.type === "text")
-              .map((post) => (
+            {posts
+              .filter((post: BlogPost) => post.type === "text")
+              .map((post: BlogPost) => (
                 <BlogPostCard key={post.id} post={post} />
               ))}
           </TabsContent>

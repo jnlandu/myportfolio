@@ -11,7 +11,7 @@ import { PublicationsSection } from "@/components/publications-section"
 import { MotivationsSection } from "@/components/motivations-section"
 import { CitationsSection } from "@/components/citations-section"
 // import { NewsSection } from "@/components/news-section"
-import { BlogSection } from "@/components/blog-section"
+// import { BlogSectionWrapper } from "@/components/blog-section-wrapper"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { NewsSection } from "@/components/news-sections"
@@ -77,7 +77,7 @@ export default function Home() {
       {/* <SkillsSection /> */}
       {/* <MotivationsSection /> */}
       {/* <CitationsSection /> */}
-      <BlogSection />
+      {/* <BlogSectionWrapper /> */}
       <ContactSection />
       <Footer />
     </main>
