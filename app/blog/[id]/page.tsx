@@ -1,8 +1,8 @@
 // Removed "use client" - This is now a Server Component
 
-
 import Image from "next/image"
 import Link from "next/link"
+import { Metadata } from "next"
 import { notFound } from "next/navigation" // Import notFound
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,8 @@ import rehypeKatex from "rehype-katex"
 import rehypeHighlight from "rehype-highlight"
 import "highlight.js/styles/github-dark.css"
 import "katex/dist/katex.min.css" 
+import { JsonLd } from "@/components/json-ld"
+import { generateBlogSEO, siteConfig } from "@/lib/seo"
 
 // Import the new blog data fetching functions
 import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog" 
@@ -25,7 +27,34 @@ export async function generateStaticParams() {
   return posts.map((post) => ({
     id: post.id,
   }))
-}// Define props type including params
+}
+
+// Dynamic metadata generation for each blog post
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { id } = await params
+  const post = getBlogPostBySlug(id)
+  
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+      description: 'The requested blog post could not be found.'
+    }
+  }
+
+  const { metadata } = generateBlogSEO({
+    title: post.title,
+    excerpt: post.excerpt,
+    slug: post.id,
+    publishedDate: post.date,
+    category: post.category || 'Blog',
+    tags: post.tags || [],
+    coverImage: post.coverImage
+  })
+
+  return metadata
+}
+
+// Define props type including params
 type BlogPostPageProps = {
   params: Promise<{
     id: string
@@ -41,8 +70,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   
   if (!post) {
     notFound()
-  }  return (
-    <main className="bg-black text-white min-h-screen pt-24 pb-20">
+  }
+
+  // Generate structured data for the blog post
+  const { jsonLD } = generateBlogSEO({
+    title: post.title,
+    excerpt: post.excerpt,
+    slug: post.id,
+    publishedDate: post.date,
+    category: post.category || 'Blog',
+    tags: post.tags || [],
+    coverImage: post.coverImage
+  })
+
+  return (
+    <>
+      <JsonLd data={jsonLD} />
+      <main className="bg-black text-white min-h-screen pt-24 pb-20">
       <div className="container max-w-4xl">
         <Link href="/blog" className="inline-flex items-center text-primary hover:underline mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -159,5 +203,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </div>
     </main>
+    </>
   )
 }

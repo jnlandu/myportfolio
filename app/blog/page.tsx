@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Metadata } from "next"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,6 +8,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Play, Clock, Calendar, Eye, BookOpen, ArrowLeft } from "lucide-react"
 import { MainNav } from "@/components/main-nav"
 import { BlogPost, getAllBlogPosts } from "@/lib/blog"
+import { JsonLd } from "@/components/json-ld"
+import { generateSEO, generateJSONLD, siteConfig } from "@/lib/seo"
+
+// Generate SEO metadata for blog listing page
+export const metadata: Metadata = generateSEO({
+  title: "Blog",
+  description: "Latest insights on Machine Learning, AI Research, Functional Data Analysis, and Mathematical Modeling by Jérémie N. Mabiala. Explore tutorials, research papers, and technical guides.",
+  url: `${siteConfig.url}/blog`,
+  keywords: ["machine learning blog", "AI research", "data science tutorials", "mathematical modeling", "deep learning guides", "statistics", "research papers"]
+})
 
 function BlogPostCard({ post }: { post: BlogPost }) {
   return (
@@ -60,8 +71,41 @@ export default async function BlogIndexPage() {
   // Fetch blog posts server-side
   const blogPosts = getAllBlogPosts()
 
+  // Generate structured data for blog listing
+  const blogJsonLd = generateJSONLD({
+    type: 'BlogPosting',
+    name: "Jérémie N. Mabiala's Blog",
+    description: "Latest insights on Machine Learning, AI Research, and Mathematical Modeling",
+    url: `${siteConfig.url}/blog`,
+    additionalData: {
+      '@type': 'Blog',
+      author: {
+        '@type': 'Person',
+        name: siteConfig.author.name,
+        url: siteConfig.url
+      },
+      publisher: {
+        '@type': 'Person',
+        name: siteConfig.author.name
+      },
+      blogPost: blogPosts.slice(0, 10).map(post => ({
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt,
+        url: `${siteConfig.url}/blog/${post.id}`,
+        datePublished: post.date,
+        author: {
+          '@type': 'Person',
+          name: siteConfig.author.name
+        }
+      }))
+    }
+  })
+
   return (
-    <main className="bg-black text-white min-h-screen pt-24 pb-20">
+    <>
+      <JsonLd data={blogJsonLd} />
+      <main className="bg-black text-white min-h-screen pt-24 pb-20">
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-border">
         <div className="container">
           <MainNav />
@@ -114,5 +158,6 @@ export default async function BlogIndexPage() {
         </Tabs>
       </div>
     </main>
+    </>
   )
 }

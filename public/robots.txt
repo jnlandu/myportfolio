@@ -2,9 +2,14 @@
 User-agent: *
 Allow: /
 
-# Disallow crawling of Next.js specific build/dev folders (usually handled by hosting platform, but good practice)
-Disallow: /_next/
-Disallow: /api/
+# Important crawlable content
+Allow: /blog
+Allow: /blog/*
 
-# Location of sitemap file
+# Block crawlers from accessing private areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin
+
+# Sitemap location
 Sitemap: https://www.jmabiala.com/sitemap.xml

@@ -15,9 +15,44 @@ import { CitationsSection } from "@/components/citations-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { NewsSection } from "@/components/news-sections"
+import { JsonLd } from "@/components/json-ld"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
+  
+  // Portfolio structured data
+  const portfolioJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jeremie Mabiala",
+    "url": "https://www.jmabiala.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/jeremie-mabiala",
+      "https://github.com/jeremie-mabiala",
+      "https://twitter.com/jeremie_mabiala"
+    ],
+    "jobTitle": "AI Researcher & Machine Learning Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Your Organization"
+    },
+    "alumniOf": [
+      {
+        "@type": "Organization",
+        "name": "Your University"
+      }
+    ],
+    "knowsAbout": [
+      "Machine Learning",
+      "Artificial Intelligence",
+      "Deep Learning",
+      "Computer Vision",
+      "Natural Language Processing",
+      "Python",
+      "TensorFlow",
+      "PyTorch"
+    ]
+  }
 
   // Smooth scrolling for anchor links
   useEffect(() => {
@@ -52,21 +87,9 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-border">
-        <div className="container">
-          <MainNav />
-        </div>
-      </div>
-
-      <div
-        className="fixed inset-0 bg-cover bg-center opacity-10 z-0 pointer-events-none"
-        style={{
-          backgroundImage: "url('/images/profile.jpg')",
-          transform: `translateY(${scrollY * 0.5}px)`,
-          filter: "blur(8px) brightness(0.3)",
-        }}
-      />
+    <main className="min-h-screen">
+      <JsonLd data={portfolioJsonLd} />
+      <MainNav />
 
       <HeroSection />
       <AboutSection />
