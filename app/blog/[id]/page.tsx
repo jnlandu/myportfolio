@@ -1,5 +1,6 @@
 // Removed "use client" - This is now a Server Component
 
+
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation" // Import notFound
@@ -8,23 +9,23 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Clock, BookOpen, Eye, ArrowLeft } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
-import rehypeRaw from "rehype-raw"
-import rehypeSanitize from "rehype-sanitize"
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
 import rehypeHighlight from "rehype-highlight"
-import "highlight.js/styles/github-dark.css" 
+import "highlight.js/styles/github-dark.css"
+import "katex/dist/katex.min.css" 
 
-// Import the data fetching functions
-import { getPostData, getAllPostIds, PostData } from "@/lib/posts" 
+// Import the new blog data fetching functions
+import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog" 
 // import { use } from "react"
 
 // Function to generate static paths at build time
 export async function generateStaticParams() {
-  const paths = getAllPostIds()
-  return paths 
-  // Example return: [{ id: 'gaussian-processes' }, { id: 'another-post' }]
-}
-
-// Define props type including params
+  const posts = getAllBlogPosts()
+  return posts.map((post) => ({
+    id: post.id,
+  }))
+}// Define props type including params
 type BlogPostPageProps = {
   params: Promise<{
     id: string
@@ -33,21 +34,14 @@ type BlogPostPageProps = {
 
 // The page component now accepts params directly
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { id } =  await params
-  let post: PostData;
-
-  try {
-    // Fetch post data using the utility function
-    post = getPostData(id) 
-  } catch (error) {
-    // If getPostData throws an error (e.g., file not found), trigger a 404
-    console.error(`Error fetching post ${id}:`, error);
-    notFound();
-  }
-
-  // No need for the client-side find logic anymore
-
-  return (
+  const { id } = await params
+  
+  // Fetch post data using the new utility function
+  const post = getBlogPostBySlug(id)
+  
+  if (!post) {
+    notFound()
+  }  return (
     <main className="bg-black text-white min-h-screen pt-24 pb-20">
       <div className="container max-w-4xl">
         <Link href="/blog" className="inline-flex items-center text-primary hover:underline mb-8">
@@ -104,7 +98,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           
           <div className="flex flex-wrap gap-2">
             {/* Use post.tags */}
-            {post.tags.map((tag) => (
+            {post.tags.map((tag: string) => (
               <Badge key={tag} variant="secondary">
                 {tag}
               </Badge>
@@ -132,8 +126,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Use post.content */}
         <div className="prose prose-invert prose-headings:text-primary prose-a:text-blue-400 prose-code:bg-gray-800 prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-800 prose-img:rounded-lg max-w-none">
           <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex, rehypeHighlight]}
           >
             {post.content} 
           </ReactMarkdown>

@@ -19,7 +19,7 @@ export function MainNav() {
     // { href: "#skills", label: "Skills" },
     // { href: "#motivations", label: "Motivations" },
     // { href: "#citations", label: "Citations" },
-    { href: "#blog", label: "Blog" },
+    { href: "/blog", label: "Blog" },
     // { href: "#contact", label: "Contact" },
   ]
 
