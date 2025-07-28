@@ -44,12 +44,22 @@ export function getAllBlogPosts(): BlogPost[] {
       // Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents)
 
-      // Combine the data with the id
-      return {
+      // Combine the data with the id and provide defaults
+      const blogPost: BlogPost = {
         id,
         content: matterResult.content,
+        title: '',
+        excerpt: '',
+        coverImage: '',
+        date: '',
+        category: '',
+        type: "text",
+        views: 0,
+        tags: [],
         ...matterResult.data,
-      } as BlogPost
+      }
+      
+      return blogPost
     })
 
   // Sort posts by date
@@ -70,11 +80,21 @@ export function getBlogPostBySlug(slug: string): BlogPost | null {
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents)
 
-    return {
+    const blogPost: BlogPost = {
       id: slug,
       content: matterResult.content,
+      title: '',
+      excerpt: '',
+      coverImage: '',
+      date: '',
+      category: '',
+      type: "text",
+      views: 0,
+      tags: [],
       ...matterResult.data,
-    } as BlogPost  
+    }
+
+    return blogPost  
   } catch (error) {
     return null
   }

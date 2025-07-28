@@ -140,14 +140,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             
             <div className="flex items-center">
               <Eye className="h-4 w-4 mr-2" />
-              {/* Use post.views */}
-              <span>{post.views.toLocaleString()} views</span>
+              {/* Use post.views with safe fallback */}
+              <span>{(post.views || 0).toLocaleString()} views</span>
             </div>
           </div>
           
           <div className="flex flex-wrap gap-2">
-            {/* Use post.tags */}
-            {post.tags.map((tag: string) => (
+            {/* Use post.tags with safe fallback */}
+            {(post.tags || []).map((tag: string) => (
               <Badge key={tag} variant="secondary">
                 {tag}
               </Badge>
