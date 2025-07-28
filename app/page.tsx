@@ -87,9 +87,19 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="min-h-screen">
+    // <main className="min-h-screen">
+    <main className="bg-black text-white min-h-screen pt-24 pb-20">
       <JsonLd data={portfolioJsonLd} />
-      <MainNav />
+      {/* <MainNav /> */}
+      {/* <JsonLd data={blogJsonLd} /> */}
+      
+      <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-border">
+        <div className="container">
+          <MainNav />
+        </div>
+      </div>
+      
+
 
       <HeroSection />
       <AboutSection />

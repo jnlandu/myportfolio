@@ -30,6 +30,38 @@ Where:
 - $m(x) = \mathbb{E}[f(x)]$ is the mean function
 - $k(x, x') = \mathbb{E}[(f(x) - m(x))(f(x') - m(x'))]$ is the covariance function
 
+
+The covariance matrix $\mathbf{K}$ can be written explicitly as:
+
+$$\mathbf{K} = \begin{pmatrix}
+k(x_1, x_1) & k(x_1, x_2) & \cdots & k(x_1, x_n) \\
+k(x_2, x_1) & k(x_2, x_2) & \cdots & k(x_2, x_n) \\
+\vdots & \vdots & \ddots & \vdots \\
+k(x_n, x_1) & k(x_n, x_2) & \cdots & k(x_n, x_n)
+\end{pmatrix}$$
+
+This matrix is symmetric since $k(x_i, x_j) = k(x_j, x_i)$ for most commonly used kernels, and positive semi-definite by construction.
+
+For a finite set of input points $\mathbf{X} = \{x_1, x_2, \ldots, x_n\}$, the corresponding function values $\mathbf{f} = [f(x_1), f(x_2), \ldots, f(x_n)]^T$ follow a multivariate Gaussian distribution:
+
+$$\mathbf{f} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{K})$$
+
+Where:
+- $\boldsymbol{\mu} = [m(x_1), m(x_2), \ldots, m(x_n)]^T$ is the mean vector
+- $\mathbf{K}$ is the $n \times n$ covariance matrix with $K_{ij} = k(x_i, x_j)$
+
+### Marginal Likelihood
+
+The marginal likelihood (evidence) for hyperparameter optimization is given by:
+
+$$p(\mathbf{y}|\mathbf{X}, \boldsymbol{\theta}) = \int p(\mathbf{y}|\mathbf{f})p(\mathbf{f}|\mathbf{X}, \boldsymbol{\theta}) d\mathbf{f}$$
+
+For Gaussian noise, this integral has a closed-form solution:
+
+$$\log p(\mathbf{y}|\mathbf{X}, \boldsymbol{\theta}) = -\frac{1}{2}\mathbf{y}^T(\mathbf{K} + \sigma_n^2\mathbf{I})^{-1}\mathbf{y} - \frac{1}{2}\log|\mathbf{K} + \sigma_n^2\mathbf{I}| - \frac{n}{2}\log(2\pi)$$
+
+
+
 ## Key Properties
 
 1. **Flexible non-parametric model**: GPs don't assume a fixed functional form

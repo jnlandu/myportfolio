@@ -168,10 +168,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Post content with Markdown */}
         {/* Use post.content */}
-        <div className="prose prose-invert prose-headings:text-primary prose-a:text-blue-400 prose-code:bg-gray-800 prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-800 prose-img:rounded-lg max-w-none">
+        <div className="prose prose-lg prose-invert prose-headings:text-primary prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-a:text-blue-400 prose-code:text-green-400 prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700 prose-pre:text-gray-100 prose-img:rounded-lg prose-blockquote:border-l-primary prose-blockquote:bg-gray-800/50 prose-strong:text-white prose-em:text-gray-300 max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeKatex, rehypeHighlight]}
+            components={{
+              h1: ({node, ...props}) => <h1 className="text-4xl font-bold mb-6 mt-8 text-primary border-b border-gray-700 pb-2" {...props} />,
+              h2: ({node, ...props}) => <h2 className="text-3xl font-bold mb-4 mt-8 text-primary" {...props} />,
+              h3: ({node, ...props}) => <h3 className="text-2xl font-semibold mb-3 mt-6 text-primary" {...props} />,
+              h4: ({node, ...props}) => <h4 className="text-xl font-semibold mb-2 mt-4 text-primary" {...props} />,
+              p: ({node, ...props}) => <p className="mb-4 leading-relaxed text-gray-200" {...props} />,
+              code: ({node, inline, className, children, ...props}: any) => {
+                const match = /language-(\w+)/.exec(className || '')
+                return !inline ? (
+                  <div className="relative">
+                    <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 overflow-x-auto">
+                      <code className={`${className} text-sm`} {...props}>
+                        {children}
+                      </code>
+                    </pre>
+                  </div>
+                ) : (
+                  <code className="bg-gray-800 text-green-400 px-2 py-1 rounded text-sm" {...props}>
+                    {children}
+                  </code>
+                )
+              },
+              ul: ({node, ...props}) => <ul className="mb-4 space-y-2 list-disc list-inside text-gray-200" {...props} />,
+              ol: ({node, ...props}) => <ol className="mb-4 space-y-2 list-decimal list-inside text-gray-200" {...props} />,
+              li: ({node, ...props}) => <li className="text-gray-200" {...props} />,
+              blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary bg-gray-800/50 pl-4 py-2 mb-4 italic text-gray-300" {...props} />,
+              strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
+              em: ({node, ...props}) => <em className="italic text-gray-300" {...props} />,
+              a: ({node, ...props}) => <a className="text-blue-400 hover:text-blue-300 underline" {...props} />,
+            }}
           >
             {post.content} 
           </ReactMarkdown>
