@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ChatButton } from "@/components/chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { generateSEO, generateJSONLD, siteConfig } from "@/lib/seo"
+import { Toaster } from "sonner"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -70,6 +71,12 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
           <ChatButton />
+          <Toaster 
+            theme="dark"
+            position="bottom-right"
+            expand={false}
+            richColors
+          />
         </ThemeProvider>
       </body>
     </html>

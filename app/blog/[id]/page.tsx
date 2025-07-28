@@ -17,6 +17,10 @@ import "katex/dist/katex.min.css"
 import "@/styles/katex-dark.css" 
 import { JsonLd } from "@/components/json-ld"
 import { generateBlogSEO, siteConfig } from "@/lib/seo"
+import { BlogComments } from "@/components/blog-comments"
+import { BlogFeedback } from "@/components/blog-feedback"
+import { QuickFeedback } from "@/components/quick-feedback"
+// import { FeedbackSystemStatus } from "@/components/feedback-system-status"
 
 // Import the new blog data fetching functions
 import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog" 
@@ -220,6 +224,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.content} 
           </ReactMarkdown>
         </div>
+        
+        {/* Quick Feedback Bar */}
+        <div className="mt-8">
+          <QuickFeedback slug={post.id} />
+        </div>
+
+        {/* Detailed Feedback Form */}
+        <div className="mt-8">
+          <BlogFeedback slug={post.id} title={post.title} />
+        </div>
+
+        {/* Comments Section */}
+        <BlogComments slug={post.id} title={post.title} />
+
+        {/* System Status (temporary - remove after setup) */}
+        {/* <FeedbackSystemStatus /> */}
         
         {/* Share and navigation (remains the same) */}
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between gap-4">
