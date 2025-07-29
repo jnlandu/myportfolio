@@ -48,7 +48,7 @@ I'd be honored if you want to check out my code or even use it as inspiration fo
 1. **Clone this bad boy**
    ```bash
    git clone https://github.com/jnlandu/myportfolio.git
-   cd myportfolio/v3
+   cd myportfolio
    ```
 
 2. **Install the dependencies**
