@@ -11,7 +11,7 @@ featured: false
 
 # Invited Speaker at International Conference on Machine Learning Applications
 
-I'm honored to announce that I've been invited as a speaker at the **International Conference on Machine Learning Applications (ICMLA) 2024**. I'll be presenting our latest research on *"Gaussian Processes for Multivariate Functional Data Analysis"* - work that represents a significant advancement in statistical learning methods for complex data structures.
+I'm honored to announce that I've been invited as a speaker at the **International Conference on Machine Learning Applications (ICMLA) 2024**. I'll be presenting our latest research on *"Gaussian Processes for Multivariate Functional Data Analysis"*, work that represents a significant advancement in statistical learning methods for complex data structures.
 
 ## About the Conference
 

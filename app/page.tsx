@@ -18,22 +18,38 @@ export default function Home() {
   const portfolioJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Jeremie Mabiala",
+    "name": ["Jeremie Mabiala", "Jérémie N. Mabiala", "Mabiala Jérémie N."],
     "url": "https://www.jmabiala.com",
     "sameAs": [
       "https://www.linkedin.com/in/jeremie-mabiala",
       "https://github.com/jeremie-mabiala",
       "https://twitter.com/jeremie_mabiala"
     ],
-    "jobTitle": "AI Researcher & Machine Learning Engineer",
+    "jobTitle": "Student in Artificial Intelligence",
     "worksFor": {
       "@type": "Organization",
-      "name": "Your Organization"
+      "name": "African Institute for Mathematical Sciences (AIMS) Senegal"
     },
     "alumniOf": [
       {
         "@type": "Organization",
-        "name": "Your University"
+        "name": "Stellenbosch University"
+      },
+       {
+        "@type": "Organization",
+        "name": "AIMS, South Africa"
+      },
+      {
+        "@type": "Organization",
+        "name": "Université de Kinshasa"
+      },
+      {
+        "@type": "Organization",
+        "name": "Ecole Centrale des Arts et Métiers (ECAM) Kinshasa"
+      },
+      {
+        "@type": "Organization",
+        "name": "Complexe Scolaire Mambo"
       }
     ],
     "knowsAbout": [
@@ -44,7 +60,11 @@ export default function Home() {
       "Natural Language Processing",
       "Python",
       "TensorFlow",
-      "PyTorch"
+      "PyTorch",
+      "TypScript",
+      "JavaScript",
+      "Mathematics",
+      "Statistics",
     ]
   }
 
