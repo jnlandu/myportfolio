@@ -11,7 +11,7 @@ import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { NewsSection } from "@/components/news-sections"
 import { JsonLd } from "@/components/json-ld"
-import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
+// import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
 
 export default function Home() {
   // Portfolio structured data
@@ -52,7 +52,7 @@ export default function Home() {
     <main className="bg-black text-white min-h-screen pb-10">
       <JsonLd data={portfolioJsonLd} />
       
-      <SmoothScrollProvider>
+      {/* <SmoothScrollProvider> */}
         <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-border">
           <div className="container">
             <MainNav />
@@ -65,7 +65,7 @@ export default function Home() {
         <ProjectsSection />
         <ContactSection />
         <Footer />
-      </SmoothScrollProvider>
+      {/* </SmoothScrollProvider> */}
     </main>
   )
 }

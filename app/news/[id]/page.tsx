@@ -11,7 +11,10 @@ import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
+import rehypeHighlight from "rehype-highlight"
+import "highlight.js/styles/github-dark.css"
 import "katex/dist/katex.min.css"
+import "@/styles/katex-dark.css"
 
 interface NewsPageProps {
   params: Promise<{ id: string }>
@@ -128,39 +131,89 @@ export default async function NewsItemPage({ params }: NewsPageProps) {
           </div>
 
           {/* Article Content */}
-          <div className="prose prose-lg prose-invert prose-headings:text-primary prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-a:text-blue-400 prose-strong:text-white max-w-none">
+          <div className="prose prose-lg prose-invert prose-headings:text-primary prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-a:text-blue-400 prose-code:text-green-400 prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700 prose-pre:text-gray-100 prose-img:rounded-lg prose-blockquote:border-l-primary prose-blockquote:bg-gray-800/50 prose-strong:text-white prose-em:text-gray-300 max-w-none">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex]}
+              rehypePlugins={[rehypeKatex, rehypeHighlight]}
               components={{
-                h1: ({ children }) => <h1 className="text-4xl font-bold text-primary mt-8 mb-6">{children}</h1>,
-                h2: ({ children }) => <h2 className="text-3xl font-semibold text-primary mt-8 mb-4">{children}</h2>,
-                h3: ({ children }) => <h3 className="text-2xl font-semibold text-primary mt-6 mb-3">{children}</h3>,
-                h4: ({ children }) => <h4 className="text-xl font-semibold text-primary mt-4 mb-2">{children}</h4>,
-                p: ({ children }) => <p className="mb-4 leading-relaxed text-gray-200">{children}</p>,
-                ul: ({ children }) => <ul className="list-disc list-inside space-y-2 mb-6 text-gray-200">{children}</ul>,
-                ol: ({ children }) => <ol className="list-decimal list-inside space-y-2 mb-6 text-gray-200">{children}</ol>,
-                li: ({ children }) => <li className="text-gray-200">{children}</li>,
-                strong: ({ children }) => <strong className="text-white font-semibold">{children}</strong>,
-                em: ({ children }) => <em className="text-gray-300 italic">{children}</em>,
-                a: ({ children, ...props }) => <a {...props} className="text-blue-400 hover:text-blue-300 underline">{children}</a>,
-                blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-primary pl-4 my-6 italic text-gray-300">
-                    {children}
-                  </blockquote>
-                ),
-                code: ({ children, className }) => {
-                  const isInline = !className
-                  if (isInline) {
-                    return <code className="bg-gray-800 text-gray-200 px-2 py-1 rounded text-sm">{children}</code>
-                  }
-                  return (
-                    <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 overflow-x-auto my-6">
-                      <code className="text-gray-200 text-sm">{children}</code>
-                    </pre>
+                h1: ({node, ...props}) => {
+                  const text = String(props.children)
+                  const id = text
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim()
+                  return <h1 id={id} className="text-4xl font-bold mb-6 mt-8 text-primary border-b border-gray-700 pb-2" {...props} />
+                },
+                h2: ({node, ...props}) => {
+                  const text = String(props.children)
+                  const id = text
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim()
+                  return <h2 id={id} className="text-3xl font-bold mb-4 mt-8 text-primary" {...props} />
+                },
+                h3: ({node, ...props}) => {
+                  const text = String(props.children)
+                  const id = text
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim()
+                  return <h3 id={id} className="text-2xl font-semibold mb-3 mt-6 text-primary" {...props} />
+                },
+                h4: ({node, ...props}) => {
+                  const text = String(props.children)
+                  const id = text
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim()
+                  return <h4 id={id} className="text-xl font-semibold mb-2 mt-4 text-primary" {...props} />
+                },
+                p: ({node, ...props}) => <p className="mb-4 leading-relaxed text-gray-200" {...props} />,
+                code: ({node, inline, className, children, ...props}: any) => {
+                  const match = /language-(\w+)/.exec(className || '')
+                  return !inline ? (
+                    <div className="relative mb-4">
+                      <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 overflow-x-auto">
+                        <code className={`${className} text-sm text-gray-100`} {...props}>
+                          {children}
+                        </code>
+                      </pre>
+                    </div>
+                  ) : (
+                    <code className="bg-gray-800 text-green-400 px-2 py-1 rounded text-sm" {...props}>
+                      {children}
+                    </code>
                   )
                 },
-                pre: ({ children }) => <div className="my-6">{children}</div>,
+                ul: ({node, ...props}) => <ul className="mb-4 space-y-2 list-disc list-inside text-gray-200" {...props} />,
+                ol: ({node, ...props}) => <ol className="mb-4 space-y-2 list-decimal list-inside text-gray-200" {...props} />,
+                li: ({node, ...props}) => <li className="text-gray-200" {...props} />,
+                blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary bg-gray-800/50 pl-4 py-2 mb-4 italic text-gray-300" {...props} />,
+                strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
+                em: ({node, ...props}) => <em className="italic text-gray-300" {...props} />,
+                a: ({node, ...props}) => <a className="text-blue-400 hover:text-blue-300 underline" {...props} />,
+                // Ensure math blocks are properly styled
+                div: ({node, className, ...props}) => {
+                  if (className === 'math math-display') {
+                    return <div className="katex-display my-6 text-center overflow-x-auto" {...props} />
+                  }
+                  return <div className={className} {...props} />
+                },
+                span: ({node, className, ...props}) => {
+                  if (className === 'math math-inline') {
+                    return <span className="katex-inline" {...props} />
+                  }
+                  return <span className={className} {...props} />
+                },
+                pre: ({children}) => <div className="my-6">{children}</div>
               }}
             >
               {newsItem.content}
