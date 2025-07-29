@@ -1,7 +1,7 @@
 ---
 title: "Mathematical Foundations of Machine Learning"
 excerpt: "A deep dive into the essential mathematical concepts behind modern machine learning algorithms."
-coverImage: "/images/blog/math-foundations.jpg"
+coverImage: "/placeholder.svg"
 date: "2023-12-18"
 readTime: "20 min read"
 category: "Mathematics"

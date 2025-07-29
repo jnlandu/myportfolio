@@ -101,16 +101,16 @@ export function HeroSection() {
           </div>
 
           <div className="flex gap-4 mt-4">
-            <Link href="#" aria-label="Email">
+            <Link href="mailto:jeremie@aims.ac.za" aria-label="Email">
               <Mail className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
             </Link>
-            <Link href="#" aria-label="Twitter">
+            <Link href="https://twitter.com/ValentinMabiala" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
               <Twitter className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
             </Link>
-            <Link href="#" aria-label="LinkedIn">
+            <Link href="https://www.linkedin.com/in/jnlandu00a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <Linkedin className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
             </Link>
-            <Link href="#" aria-label="GitHub">
+            <Link href="https://github.com/jnlandu" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <Github className="h-5 w-5 text-gray-400 hover:text-primary transition-colors" />
             </Link>
           </div>

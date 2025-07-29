@@ -2,44 +2,65 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { MainNav } from "@/components/main-nav"
+import { ExternalLink, X, ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react"
 
 const galleryImages = [
   {
-    src: "/images/travel/senegal-1.jpg",
+    src: "/placeholder.jpg",
     title: "AIMS Senegal Campus",
     location: "Mbour, Senegal",
-    description: "Beautiful sunset view from the AIMS campus"
+    description: "Beautiful sunset view from the AIMS campus - placeholder image"
   },
   {
-    src: "/images/travel/congo-1.jpg", 
+    src: "/placeholder.jpg", 
     title: "University of Kinshasa",
     location: "Kinshasa, DR Congo",
-    description: "My alma mater where I completed my Bachelor's degree"
+    description: "My alma mater where I completed my Bachelor's degree - placeholder image"
   },
   {
-    src: "/images/travel/southafrica-1.jpg",
+    src: "/placeholder.jpg",
     title: "Stellenbosch University",
     location: "Stellenbosch, South Africa", 
-    description: "Campus where I completed my Master's degree"
+    description: "Campus where I completed my Master's degree - placeholder image"
   },
   {
-    src: "/images/travel/conference-1.jpg",
+    src: "/placeholder.jpg",
     title: "AI Conference",
     location: "Various Locations",
-    description: "Presenting research at international conferences"
+    description: "Presenting research at international conferences - placeholder image"
   },
-  // Add more images as needed
+  {
+    src: "/images/profile.jpg",
+    title: "Academic Portrait",
+    location: "Professional Setting",
+    description: "Professional academic portrait for conferences and publications"
+  },
+  {
+    src: "/placeholder.jpg",
+    title: "Research Laboratory",
+    location: "AMMI Program",
+    description: "Working in the AI research laboratory - placeholder image"
+  },
+  {
+    src: "/placeholder.jpg",
+    title: "Conference Presentation",
+    location: "International Venue",
+    description: "Delivering a presentation at an academic conference - placeholder image"
+  },
+  {
+    src: "/placeholder.jpg",
+    title: "Study Group",
+    location: "University Campus",
+    description: "Collaborative learning session with fellow researchers - placeholder image"
+  }
 ]
 
-interface GalleryModalProps {
-  children: React.ReactNode
-}
-
-const GalleryModal = ({ children }: GalleryModalProps) =>{
+export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState(0)
 
   const nextImage = () => {
@@ -51,113 +72,112 @@ const GalleryModal = ({ children }: GalleryModalProps) =>{
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="max-w-6xl max-h-[90vh] bg-black/95 border-primary/20">
-        <DialogHeader>
-          <DialogTitle className="text-xl text-primary">Travel Photography Gallery</DialogTitle>
-        </DialogHeader>
-        
-        <div className="grid md:grid-cols-2 gap-6 overflow-y-auto max-h-[70vh]">
-          {/* Main Image Display */}
-          <div className="space-y-4">
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-900">
-              <Image
-                src={galleryImages[selectedImage].src}
-                alt={galleryImages[selectedImage].title}
-                fill
-                className="object-cover"
-                onError={(e) => {
-                  // Fallback to placeholder if image doesn't exist
-                  const target = e.target as HTMLImageElement
-                  target.src = "/images/placeholder-travel.jpg"
-                }}
-              />
-              
-              {/* Navigation Arrows */}
-              {galleryImages.length > 1 && (
-                <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors"
-                  >
-                    <ChevronLeft className="h-4 w-4 text-white" />
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors"
-                  >
-                    <ChevronRight className="h-4 w-4 text-white" />
-                  </button>
-                </>
-              )}
-              
-              {/* Image Counter */}
-              <div className="absolute bottom-2 right-2 bg-black/70 px-2 py-1 rounded text-sm text-white">
-                {selectedImage + 1} / {galleryImages.length}
-              </div>
-            </div>
-            
-            {/* Image Info */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-primary">
-                {galleryImages[selectedImage].title}
-              </h3>
-              <Badge variant="outline" className="text-xs">
-                {galleryImages[selectedImage].location}
-              </Badge>
-              <p className="text-sm text-gray-400">
-                {galleryImages[selectedImage].description}
-              </p>
-            </div>
+    <>
+      {/* Main Navigation */}
+      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-black/80 backdrop-blur supports-[backdrop-filter]:bg-black/60">
+        <div className="container max-w-7xl">
+          <MainNav />
+        </div>
+      </header>
+
+      <main className="bg-black text-white min-h-screen pt-8 pb-20">
+        <div className="container max-w-6xl">
+          <Link href="/" className="inline-flex items-center text-primary hover:underline mb-8">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to home
+          </Link>
+
+          {/* Page Header */}
+          <div className="mb-12">
+            <h1 className="text-4xl font-bold mb-4 text-primary">Travel & Academic Gallery</h1>
+            <p className="text-gray-400 text-lg max-w-3xl">
+              A visual journey through my academic travels across Africa and beyond. 
+              These photos capture the inspiring places where I've studied, researched, 
+              and collaborated with fellow academics and researchers.
+            </p>
           </div>
-          
-          {/* Thumbnail Grid */}
-          <div>
-            <h4 className="text-md font-medium mb-4 text-gray-300">All Photos</h4>
-            <div className="grid grid-cols-2 gap-3 max-h-[400px] overflow-y-auto">
-              {galleryImages.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`relative aspect-[4/3] rounded-lg overflow-hidden transition-all ${
-                    selectedImage === index 
-                      ? 'ring-2 ring-primary shadow-lg' 
-                      : 'hover:ring-2 hover:ring-primary/50'
-                  }`}
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.title}
-                    fill
-                    className="object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.src = "/images/placeholder-travel.jpg"
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-black/20 hover:bg-black/10 transition-colors" />
-                </button>
-              ))}
+
+          {/* Gallery Grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {galleryImages.map((image, index) => (
+              <Dialog key={index}>
+                <DialogTrigger asChild>
+                  <div className="group cursor-pointer">
+                    <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-900 transition-transform group-hover:scale-105">
+                      <Image
+                        src={image.src}
+                        alt={image.title}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-110"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.src = "/placeholder.jpg"
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <ExternalLink className="text-white h-6 w-6" />
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <h3 className="font-medium text-white group-hover:text-primary transition-colors">
+                        {image.title}
+                      </h3>
+                      <p className="text-sm text-gray-400">{image.location}</p>
+                    </div>
+                  </div>
+                </DialogTrigger>
+
+                {/* Individual Image Modal */}
+                <DialogContent className="max-w-4xl max-h-[90vh] bg-black/95 border-primary/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl text-primary">{image.title}</DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="space-y-4">
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-900">
+                      <Image
+                        src={image.src}
+                        alt={image.title}
+                        fill
+                        className="object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.src = "/placeholder.jpg"
+                        }}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Badge variant="outline" className="text-xs">
+                        {image.location}
+                      </Badge>
+                      <p className="text-sm text-gray-400">
+                        {image.description}
+                      </p>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+
+          {/* Gallery Stats */}
+          <div className="mt-16 grid sm:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-3xl font-bold text-primary">{galleryImages.length}</div>
+              <div className="text-sm text-gray-400 mt-1">Photos</div>
             </div>
-            
-            {/* Gallery Description */}
-            <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
-              <h4 className="font-medium mb-2 text-primary">About This Gallery</h4>
-              <p className="text-sm text-gray-400">
-                A visual journey through my academic travels across Africa and beyond. 
-                These photos capture the inspiring places where I've studied, researched, 
-                and collaborated with fellow academics and researchers.
-              </p>
+            <div>
+              <div className="text-3xl font-bold text-primary">3</div>
+              <div className="text-sm text-gray-400 mt-1">Countries</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary">5+</div>
+              <div className="text-sm text-gray-400 mt-1">Institutions</div>
             </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </main>
+    </>
   )
 }
-
-
-export default GalleryModal
