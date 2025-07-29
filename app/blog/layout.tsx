@@ -9,9 +9,9 @@ import { ChatButton } from "@/components/chat-button"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Jérémie N. Mabiala - Resident Tutor in Machine Learning, AI Researcher & Mathematical Scientist",
+  title: "Jérémie N. Mabiala - Resident Tutor in Machine Learning, AIMS Senegal",
   description:
-    "Personal portfolio of Jérémie N. Mabiala, Resident Tutor in Machine Learning at AIMS Senegal, AI researcher and mathematician specializing in Machine Learning, Functional Data Analysis, and Mathematical Modeling",
+    "Personal portfolio of Jérémie N. Mabiala", //, Resident Tutor in Machine Learning at AIMS Senegal, AI researcher and mathematician specializing in Machine Learning, Functional Data Analysis, and Mathematical Modeling",
   keywords: [
     "Jérémie N. Mabiala",
     "Jérémie Mabiala",
@@ -19,11 +19,6 @@ export const metadata: Metadata = {
     "Jérémie Nlandu",
     "Mabiala Jérémie",
     "Mabiala Nlandu",
-    "AI Researcher",
-    "Mathematical Scientist",
-    "Machine Learning",
-    "Functional Data Analysis",
-    "Mathematical Modeling",
     "African Master in Machine Intelligence, AMMI",
     "African Institute for Mathematical Sciences, AIMS",
     "AIMS Senegal",

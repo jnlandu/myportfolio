@@ -78,7 +78,7 @@ We're particularly excited about the potential to contribute to the responsible 
 
 ## Impact and Significance
 
-This grant represents recognition of the importance of our work and provides the resources needed to make significant advances in explainable AI. The funding will support:
+This grant represents recognition of the importance of our work and provides the resources needed to make significant advances in explainable AI. The funding will support :
 
 - Graduate student researchers and postdoctoral fellows
 - Computing resources for large-scale experiments
