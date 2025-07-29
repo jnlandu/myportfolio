@@ -1,6 +1,3 @@
-"use client"
-
-import { useEffect, useState } from "react"
 import { MainNav } from "@/components/main-nav"
 import { HeroSection } from "@/components/hero-section"
 import { AboutSection } from "@/components/about-section"
@@ -10,16 +7,13 @@ import { SkillsSection } from "@/components/skills-section"
 import { PublicationsSection } from "@/components/publications-section"
 import { MotivationsSection } from "@/components/motivations-section"
 import { CitationsSection } from "@/components/citations-section"
-// import { NewsSection } from "@/components/news-section"
-// import { BlogSectionWrapper } from "@/components/blog-section-wrapper"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { NewsSection } from "@/components/news-sections"
 import { JsonLd } from "@/components/json-ld"
+import { SmoothScrollProvider } from "@/components/smooth-scroll-provider"
 
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0)
-  
   // Portfolio structured data
   const portfolioJsonLd = {
     "@context": "https://schema.org",
@@ -54,65 +48,24 @@ export default function Home() {
     ]
   }
 
-  // Smooth scrolling for anchor links
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-
-    const handleAnchorClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const anchor = target.closest("a")
-
-      if (anchor && anchor.hash && anchor.hash.startsWith("#")) {
-        e.preventDefault()
-        const targetElement = document.querySelector(anchor.hash)
-
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.getBoundingClientRect().top + window.scrollY - 100,
-            behavior: "smooth",
-          })
-        }
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    document.addEventListener("click", handleAnchorClick)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      document.removeEventListener("click", handleAnchorClick)
-    }
-  }, [])
-
   return (
-    // <main className="min-h-screen">
-    <main className="bg-black text-white min-h-screen  pb-10">
+    <main className="bg-black text-white min-h-screen pb-10">
       <JsonLd data={portfolioJsonLd} />
-      {/* <MainNav /> */}
-      {/* <JsonLd data={blogJsonLd} /> */}
       
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-border">
-        <div className="container">
-          <MainNav />
+      <SmoothScrollProvider>
+        <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-border">
+          <div className="container">
+            <MainNav />
+          </div>
         </div>
-      </div>
-      
 
-
-      <HeroSection />
-      <AboutSection />
-      <NewsSection />
-      <ProjectsSection />
-      {/* <PublicationsSection /> */}
-      {/* <EducationSection /> */}
-      {/* <SkillsSection /> */}
-      {/* <MotivationsSection /> */}
-      {/* <CitationsSection /> */}
-      {/* <BlogSectionWrapper /> */}
-      <ContactSection />
-      <Footer />
+        <HeroSection />
+        <AboutSection />
+        <NewsSection />
+        <ProjectsSection />
+        <ContactSection />
+        <Footer />
+      </SmoothScrollProvider>
     </main>
   )
 }
