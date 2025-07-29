@@ -88,7 +88,7 @@ export default function Home() {
 
   return (
     // <main className="min-h-screen">
-    <main className="bg-black text-white min-h-screen pt-24 pb-20">
+    <main className="bg-black text-white min-h-screen  pb-10">
       <JsonLd data={portfolioJsonLd} />
       {/* <MainNav /> */}
       {/* <JsonLd data={blogJsonLd} /> */}
@@ -103,7 +103,7 @@ export default function Home() {
 
       <HeroSection />
       <AboutSection />
-      {/* <NewsSection /> */}
+      <NewsSection />
       <ProjectsSection />
       {/* <PublicationsSection /> */}
       {/* <EducationSection /> */}

@@ -1,12 +1,14 @@
-// Removed "use client" - This is now a Server Component
-
 import Image from "next/image"
 import Link from "next/link"
 import { Metadata } from "next"
-import { notFound } from "next/navigation" // Import notFound
+import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, BookOpen, Eye, ArrowLeft } from "lucide-react"
+import { Card, CardContent } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { TableOfContents } from '@/components/table-of-contents'
+import { MainNav } from '@/components/main-nav'
+import { Calendar, Clock, BookOpen, Eye, ArrowLeft, CalendarIcon, ClockIcon, TagIcon } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
@@ -14,7 +16,7 @@ import rehypeKatex from "rehype-katex"
 import rehypeHighlight from "rehype-highlight"
 import "highlight.js/styles/github-dark.css"
 import "katex/dist/katex.min.css" 
-import "@/styles/katex-dark.css" 
+import "@/styles/katex-dark.css"
 import { JsonLd } from "@/components/json-ld"
 import { generateBlogSEO, siteConfig } from "@/lib/seo"
 import { BlogComments } from "@/components/blog-comments"
@@ -23,10 +25,8 @@ import { QuickFeedback } from "@/components/quick-feedback"
 // import { FeedbackSystemStatus } from "@/components/feedback-system-status"
 
 // Import the new blog data fetching functions
-import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog" 
-// import { use } from "react"
-
-// Function to generate static paths at build time
+import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog"
+// import { use } from "react"// Function to generate static paths at build time
 export async function generateStaticParams() {
   const posts = getAllBlogPosts()
   return posts.map((post) => ({
@@ -91,26 +91,37 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <JsonLd data={jsonLD} />
-      <main className="bg-black text-white min-h-screen pt-24 pb-20">
-      <div className="container max-w-4xl">
+      
+      {/* Main Navigation */}
+      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-black/80 backdrop-blur supports-[backdrop-filter]:bg-black/60">
+        <div className="container max-w-7xl">
+          <MainNav />
+        </div>
+      </header>
+
+      <main className="bg-black text-white min-h-screen pt-8 pb-20">
+      <div className="container max-w-7xl">
         <Link href="/blog" className="inline-flex items-center text-primary hover:underline mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to all tutorials
         </Link>
 
-        {/* Hero section */}
-        <div className="relative aspect-video w-full mb-8 rounded-lg overflow-hidden">
-          {/* Use post.coverImage */}
-          <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-          
-          <div className="absolute top-4 left-4 flex gap-2">
-            <Badge className="bg-primary text-white">{post.category}</Badge>
-            <Badge variant="outline" className="bg-black/70 backdrop-blur-sm">
-              {post.type === "video" ? "Video Tutorial" : "Text Tutorial"}
-            </Badge>
-          </div>
-        </div>
+        <div className="flex gap-8">
+          {/* Main content */}
+          <div className="flex-1 max-w-4xl">
+            {/* Hero section */}
+            <div className="relative aspect-video w-full mb-8 rounded-lg overflow-hidden">
+              {/* Use post.coverImage */}
+              <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
+              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+              
+              <div className="absolute top-4 left-4 flex gap-2">
+                <Badge className="bg-primary text-white">{post.category}</Badge>
+                <Badge variant="outline" className="bg-black/70 backdrop-blur-sm">
+                  {post.type === "video" ? "Video Tutorial" : "Text Tutorial"}
+                </Badge>
+              </div>
+            </div>
 
         {/* Post header */}
         <div className="mb-8">
@@ -178,10 +189,46 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeKatex, rehypeHighlight]}
             components={{
-              h1: ({node, ...props}) => <h1 className="text-4xl font-bold mb-6 mt-8 text-primary border-b border-gray-700 pb-2" {...props} />,
-              h2: ({node, ...props}) => <h2 className="text-3xl font-bold mb-4 mt-8 text-primary" {...props} />,
-              h3: ({node, ...props}) => <h3 className="text-2xl font-semibold mb-3 mt-6 text-primary" {...props} />,
-              h4: ({node, ...props}) => <h4 className="text-xl font-semibold mb-2 mt-4 text-primary" {...props} />,
+              h1: ({node, ...props}) => {
+                const text = String(props.children)
+                const id = text
+                  .toLowerCase()
+                  .replace(/[^\w\s-]/g, '')
+                  .replace(/\s+/g, '-')
+                  .replace(/-+/g, '-')
+                  .trim()
+                return <h1 id={id} className="text-4xl font-bold mb-6 mt-8 text-primary border-b border-gray-700 pb-2" {...props} />
+              },
+              h2: ({node, ...props}) => {
+                const text = String(props.children)
+                const id = text
+                  .toLowerCase()
+                  .replace(/[^\w\s-]/g, '')
+                  .replace(/\s+/g, '-')
+                  .replace(/-+/g, '-')
+                  .trim()
+                return <h2 id={id} className="text-3xl font-bold mb-4 mt-8 text-primary" {...props} />
+              },
+              h3: ({node, ...props}) => {
+                const text = String(props.children)
+                const id = text
+                  .toLowerCase()
+                  .replace(/[^\w\s-]/g, '')
+                  .replace(/\s+/g, '-')
+                  .replace(/-+/g, '-')
+                  .trim()
+                return <h3 id={id} className="text-2xl font-semibold mb-3 mt-6 text-primary" {...props} />
+              },
+              h4: ({node, ...props}) => {
+                const text = String(props.children)
+                const id = text
+                  .toLowerCase()
+                  .replace(/[^\w\s-]/g, '')
+                  .replace(/\s+/g, '-')
+                  .replace(/-+/g, '-')
+                  .trim()
+                return <h4 id={id} className="text-xl font-semibold mb-2 mt-4 text-primary" {...props} />
+              },
               p: ({node, ...props}) => <p className="mb-4 leading-relaxed text-gray-200" {...props} />,
               code: ({node, inline, className, children, ...props}: any) => {
                 const match = /language-(\w+)/.exec(className || '')
@@ -265,8 +312,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Button>
           </Link>
         </div>
+
+        {/* Comments Section */}
+        <BlogComments slug={post.id} title={post.title} />
       </div>
-    </main>
+
+      {/* Table of Contents Sidebar */}
+      <div className="w-80 hidden lg:block">
+        <TableOfContents content={post.content || ''} />
+      </div>
+    </div>
+  </div>
+</main>
     </>
   )
 }

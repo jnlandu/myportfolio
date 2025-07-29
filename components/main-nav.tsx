@@ -10,17 +10,17 @@ export function MainNav() {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const routes = [
-    { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
-    // { href: "#news", label: "News" },
-    { href: "#projects", label: "Projects" },
-    // { href: "#publications", label: "Publications" },
-    // { href: "#education", label: "Education" },
-    // { href: "#skills", label: "Skills" },
-    // { href: "#motivations", label: "Motivations" },
-    // { href: "#citations", label: "Citations" },
+    { href: "/#home", label: "Home" },
+    { href: "/#about", label: "About" },
+    { href: "/#news", label: "News" },
+    { href: "/#projects", label: "Projects" },
+    // { href: "/#publications", label: "Publications" },
+    // { href: "/#education", label: "Education" },
+    // { href: "/#skills", label: "Skills" },
+    // { href: "/#motivations", label: "Motivations" },
+    // { href: "/#citations", label: "Citations" },
     { href: "/blog", label: "Blog" },
-    // { href: "#contact", label: "Contact" },
+    // { href: "/#contact", label: "Contact" },
   ]
 
   return (
@@ -35,7 +35,7 @@ export function MainNav() {
           </Link>
         ))}
         <Button variant="outline" size="sm" asChild>
-          <Link href="#contact">Get in Touch</Link>
+          <Link href="/#contact">Get in Touch</Link>
         </Button>
       </nav>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
