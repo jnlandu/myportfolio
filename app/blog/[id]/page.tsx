@@ -21,6 +21,7 @@ import { JsonLd } from "@/components/json-ld"
 import { generateBlogSEO, siteConfig } from "@/lib/seo"
 import { BlogComments } from "@/components/blog-comments"
 import { ClientBlogComponents } from "@/components/client-blog-components"
+import { RelatedPosts } from "@/components/related-posts"
 
 // Import the new blog data fetching functions
 import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog"// Function to generate static paths at build time
@@ -286,13 +287,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           postTags={post.tags}
         />
 
+        {/* Related Posts Section */}
+        <RelatedPosts currentPost={post} maxPosts={3} />
+
         {/* Comments Section */}
         <BlogComments slug={post.id} title={post.title} />
 
         {/* System Status (temporary - remove after setup) */}
         {/* <FeedbackSystemStatus /> */}
         
-        {/* Share and navigation (remains the same) */}
+        {/* Share and navigation */}
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between gap-4">
           <div>
             <h3 className="font-medium mb-2">Share this post</h3>
@@ -316,9 +320,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Button>
           </Link>
         </div>
-
-        {/* Comments Section */}
-        <BlogComments slug={post.id} title={post.title} />
       </div>
 
       {/* Table of Contents Sidebar */}
