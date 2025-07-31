@@ -6,9 +6,11 @@ import Link from "next/link"
 import { Mail, Twitter, Linkedin, Github, ArrowDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import { useTranslation } from "@/components/language-provider"
 
 export function HeroSection() {
   const [scrollY, setScrollY] = useState(0)
+  const t = useTranslation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,24 +81,22 @@ export function HeroSection() {
         >
           <div>
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              <span className="text-primary">Hello, I'm</span>
-              <div className="script-font text-5xl md:text-7xl mt-2">Jérémie N. Mabiala</div>
+              <span className="text-primary">{t.hero.greeting}</span>
+              <div className="script-font text-5xl md:text-7xl mt-2">{t.hero.name}</div>
             </h1>
-            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">AI/ML enthusiast, Mathematician.</h2>
+            <h2 className="text-xl md:text-2xl text-gray-300 mt-4">{t.hero.title}</h2>
           </div>
 
           <p className="text-gray-300 text-lg">
-
-            From Pure Math background to Artificial Intelligence, I'm currently a resident tutor in Artificial Intelligence at the African Masters in Machine Intelligence (AMMI) program.
-            <br />
+            {t.hero.description}
           </p>
 
           <div className="flex gap-4 mt-2">
             <Button asChild>
-              <Link href="#projects">View My Work</Link>
+              <Link href="#projects">{t.hero.viewResume}</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="#contact">Contact Me</Link>
+              <Link href="#contact">{t.hero.contactMe}</Link>
             </Button>
           </div>
 

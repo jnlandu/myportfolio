@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/components/language-provider"
 import { ChatButton } from "@/components/chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { generateSEO, generateJSONLD, siteConfig } from "@/lib/seo"
@@ -69,14 +70,16 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-          <ChatButton />
-          <Toaster 
-            theme="dark"
-            position="bottom-right"
-            expand={false}
-            richColors
-          />
+          <LanguageProvider>
+            {children}
+            <ChatButton />
+            <Toaster 
+              theme="dark"
+              position="bottom-right"
+              expand={false}
+              richColors
+            />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

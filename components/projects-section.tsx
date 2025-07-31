@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
@@ -5,27 +7,30 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Github, ExternalLink, Globe, Smartphone, Code } from "lucide-react"
+import { useTranslation } from "@/components/language-provider"
 
 export function ProjectsSection() {
+  const t = useTranslation()
+
   return (
     <section id="projects" className="py-20">
       <div className="container">
         <div className="flex flex-col items-center text-center mb-12">
           <Badge variant="outline" className="mb-4">
-            My Work
+            {t.projects.title}
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Current Projects</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.projects.title}</h2>
           <div className="w-20 h-1 bg-primary rounded mb-6"></div>
           <p className="max-w-2xl text-gray-400">
-            Exploring the frontiers of AI research through innovative projects and collaborations
+            {t.projects.subtitle}
           </p>
         </div>
 
         <Tabs defaultValue="research" className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-12">
-            <TabsTrigger value="research">Research</TabsTrigger>
-            <TabsTrigger value="webmobile">Web & Mobile</TabsTrigger>
-            <TabsTrigger value="personal">Personal</TabsTrigger>
+            <TabsTrigger value="research">{t.projects.research}</TabsTrigger>
+            <TabsTrigger value="webmobile">{t.projects.webMobile}</TabsTrigger>
+            <TabsTrigger value="personal">{t.projects.personal}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="research" className="space-y-8">
