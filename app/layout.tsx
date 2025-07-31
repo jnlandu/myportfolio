@@ -52,7 +52,7 @@ export default function RootLayout({
   })
 
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth dark" style={{colorScheme: "dark"}} suppressHydrationWarning>
       <head>
         {/* Preconnect to external domains for better performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,7 +69,7 @@ export default function RootLayout({
         <JsonLd data={personJsonLd} />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+        <ThemeProvider defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <LanguageProvider>
             {children}
             <ChatButton />

@@ -20,13 +20,10 @@ import "@/styles/katex-dark.css"
 import { JsonLd } from "@/components/json-ld"
 import { generateBlogSEO, siteConfig } from "@/lib/seo"
 import { BlogComments } from "@/components/blog-comments"
-import { BlogFeedback } from "@/components/blog-feedback"
-import { QuickFeedback } from "@/components/quick-feedback"
-// import { FeedbackSystemStatus } from "@/components/feedback-system-status"
+import { ClientBlogComponents } from "@/components/client-blog-components"
 
 // Import the new blog data fetching functions
-import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog"
-// import { use } from "react"// Function to generate static paths at build time
+import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from "@/lib/blog"// Function to generate static paths at build time
 export async function generateStaticParams() {
   const posts = getAllBlogPosts()
   return posts.map((post) => ({
@@ -184,7 +181,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Post content with Markdown */}
         {/* Use post.content */}
-        <div className="prose prose-lg prose-invert prose-headings:text-primary prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-a:text-blue-400 prose-code:text-green-400 prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700 prose-pre:text-gray-100 prose-img:rounded-lg prose-blockquote:border-l-primary prose-blockquote:bg-gray-800/50 prose-strong:text-white prose-em:text-gray-300 max-w-none">
+        <div className="prose prose-lg prose-invert max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeKatex, rehypeHighlight]}
@@ -230,18 +227,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 return <h4 id={id} className="text-xl font-semibold mb-2 mt-4 text-primary" {...props} />
               },
               p: ({node, ...props}) => <p className="mb-4 leading-relaxed text-gray-200" {...props} />,
+              pre: ({node, ...props}) => (
+                <div className="relative mb-4">
+                  <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 overflow-x-auto text-sm text-gray-100" {...props} />
+                </div>
+              ),
               code: ({node, inline, className, children, ...props}: any) => {
-                const match = /language-(\w+)/.exec(className || '')
-                return !inline ? (
-                  <div className="relative mb-4">
-                    <pre className="bg-gray-900 border border-gray-700 rounded-lg p-4 overflow-x-auto">
-                      <code className={`${className} text-sm text-gray-100`} {...props}>
-                        {children}
-                      </code>
-                    </pre>
-                  </div>
-                ) : (
+                return inline ? (
                   <code className="bg-gray-800 text-green-400 px-2 py-1 rounded text-sm" {...props}>
+                    {children}
+                  </code>
+                ) : (
+                  <code className={`${className} text-sm text-gray-100`} {...props}>
                     {children}
                   </code>
                 )
@@ -253,7 +250,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
               em: ({node, ...props}) => <em className="italic text-gray-300" {...props} />,
               a: ({node, ...props}) => <a className="text-blue-400 hover:text-blue-300 underline" {...props} />,
-              // Ensure math blocks are properly styled
+              img: ({node, ...props}) => <img className="rounded-lg my-4" {...props} />,
+              // Ensure math blocks are properly styled  
               div: ({node, className, ...props}) => {
                 if (className === 'math math-display') {
                   return <div className="katex-display my-6 text-center overflow-x-auto" {...props} />
@@ -265,22 +263,28 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   return <span className="katex-inline" {...props} />
                 }
                 return <span className={className} {...props} />
-              }
+              },
+              // Handle tables properly
+              table: ({node, ...props}) => (
+                <div className="overflow-x-auto my-4">
+                  <table className="min-w-full border-collapse border border-gray-700" {...props} />
+                </div>
+              ),
+              th: ({node, ...props}) => <th className="border border-gray-700 px-4 py-2 bg-gray-800 text-left" {...props} />,
+              td: ({node, ...props}) => <td className="border border-gray-700 px-4 py-2" {...props} />
             }}
           >
             {post.content} 
           </ReactMarkdown>
         </div>
         
-        {/* Quick Feedback Bar */}
-        <div className="mt-8">
-          <QuickFeedback slug={post.id} />
-        </div>
-
-        {/* Detailed Feedback Form */}
-        <div className="mt-8">
-          <BlogFeedback slug={post.id} title={post.title} />
-        </div>
+        {/* Client-side components (analytics, feedback) */}
+        <ClientBlogComponents 
+          postId={post.id}
+          postTitle={post.title}
+          postCategory={post.category}
+          postTags={post.tags}
+        />
 
         {/* Comments Section */}
         <BlogComments slug={post.id} title={post.title} />
