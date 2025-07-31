@@ -1,12 +1,13 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { MessageCircle, X, ArrowUp, Loader2, Bot, User, AlertTriangle } from "lucide-react" // Added Bot, User, AlertTriangle
+import { MessageCircle, X, ArrowUp, Loader2, Bot, User, AlertTriangle, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
-import Image from "next/image"
+import { Badge } from "@/components/ui/badge"
+import { chatService } from "@/lib/chat-service"
 
 type Message = {
   id: string
@@ -17,31 +18,19 @@ type Message = {
 
 export function ChatButton() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isGreetingVisible, setIsGreetingVisible] = useState(true)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       role: "assistant",
-      content: "👋 Hi there! I'm Jérémie's virtual assistant. Feel free to ask me anything about his research, publications, or background!",
+      content: "👋 Hi there! I'm Jérémie's AI assistant. I can answer questions about his research, education, current work at AMMI, technical skills, or personal background. What would you like to know?",
       timestamp: new Date(),
     },
   ])
   const [isLoading, setIsLoading] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(true)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
-  // Show greeting on initial load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsGreetingVisible(true)
-    }, 200000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  const closeGreeting = () => {
-    setIsGreetingVisible(false)
-  }
   // Scroll to bottom when messages update
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -66,26 +55,19 @@ export function ChatButton() {
     setMessages((prev) => [...prev, userMessage])
     setMessage("")
     setIsLoading(true)
+    setShowSuggestions(false) // Hide suggestions after first message
 
     try {
-      // In a real implementation, you would call your AI service here
-      // For demo purposes, we'll simulate a response
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+      // Simulate a small delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 500))
 
-      const responses = [
-        "I'm a mathematical scientist and AI researcher specializing in Machine Learning and Functional Data Analysis.",
-        "My research focuses on developing novel mathematical approaches to AI problems.",
-        "I've published several papers on machine learning applications in various domains.",
-        "I completed my education at prestigious institutions focusing on mathematics and computer science.",
-        "I have expertise in Python, TensorFlow, PyTorch, and other data science tools.",
-        "I'm passionate about combining theoretical mathematical insights with practical AI applications.",
-        "You can check out my projects section to see some of my recent work.",
-      ]
+      // Get intelligent response from chat service
+      const response = chatService.getResponse(userMessage.content)
       
       const assistantMessage: Message = {
         id: Date.now().toString(),
         role: "assistant",
-        content: responses[Math.floor(Math.random() * responses.length)],
+        content: response,
         timestamp: new Date(),
       }
       
@@ -99,7 +81,7 @@ export function ChatButton() {
         ...prev,
         {
           id: Date.now().toString(),
-          role: "error", // Use error role
+          role: "error",
           content: "Sorry, I couldn't process your request. Please try again later.",
           timestamp: new Date(),
         },
@@ -109,65 +91,20 @@ export function ChatButton() {
     }
   }
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setMessage(suggestion)
+    setShowSuggestions(false)
+    // Auto-send the suggestion
+    setTimeout(() => handleSendMessage(), 100)
+  }
+
   return (
     <>
-    {isGreetingVisible && !isOpen && (
-        <div className="fixed bottom-24 right-6 z-40 max-w-xs md:max-w-sm animate-fade-in">
-          <div className="relative">
-            {/* <div className="absolute -top-6 left-4 flex -space-x-3">
-              <Avatar className="h-12 w-12 border-2 border-white">
-                <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white font-bold">J</div>
-                <Image
-                  src="/images/profile.jpg"
-                  alt="Jérémie N. Mabiala"
-                  width={48}
-                  height={48}
-                  className="object-cover"
-                />
-              </Avatar>
-              <Avatar className="h-12 w-12 border-2 border-white">
-                <div className="bg-blue-500 w-full h-full flex items-center justify-center text-white font-bold">M</div>
-              </Avatar>
-              <Avatar className="h-12 w-12 border-2 border-white">
-                <div className="bg-green-500 w-full h-full flex items-center justify-center text-white font-bold">
-                  N
-                </div>
-              </Avatar>
-            </div> */}
-            {/* <Button
-              variant="ghost"
-              size="icon"
-              className="absolute -top-6 right-2 h-8 w-8 rounded-full bg-gray-400 text-white hover:bg-gray-500"
-              onClick={closeGreeting}
-            >
-              <X className="h-4 w-4" />
-            </Button> */}
-            {/* <div className="bg-white text-gray-800 rounded-3xl p-6 pt-8 shadow-lg border border-gray-200">
-                <p className="text-lg">Hi 👋 I'm Jérémie's virtual assistant</p>
-                <p className="mt-2">I can answer questions about:</p>
-                <ul className="mt-2 space-y-1 list-disc list-inside">
-                  <li>Research & publications</li>
-                  <li>Skills & expertise</li>
-                  <li>Professional background</li>
-                  <li>Projects & interests</li>
-                </ul>
-              <div className="mt-4">
-                <Button 
-                  onClick={() => setIsOpen(true)} 
-                  className="w-full bg-primary hover:bg-primary/90"
-                >
-                  Ask  About Me
-                </Button>
-              </div>
-            </div> */}
-          </div>
-        </div>
-      )}
       {/* Floating chat button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg z-50 transition-colors duration-200 ${
-          isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90"
+        className={`fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg z-50 transition-all duration-200 ${
+          isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90 animate-pulse"
         }`}
         size="icon"
         aria-label={isOpen ? "Close chat" : "Open chat"}
@@ -183,15 +120,16 @@ export function ChatButton() {
             <div className="flex items-center gap-3">
               <Avatar className="border-2 border-primary">
                 <AvatarImage src="/images/profile.jpg" alt="Jérémie N. Mabiala" />
-                {/* <AvatarFallback>JM</AvatarFallback> */}
               </Avatar>
               <div>
                 <h3 className="font-medium flex items-center gap-1.5">
-                  <Bot className="h-4 w-4 text-primary" /> {/* Bot icon */}
-                  
+                  <Bot className="h-4 w-4 text-primary" />
                   Ask Jérémie's Assistant
                 </h3>
-                <p className="text-xs text-gray-400">Ready to answer your questions</p>
+                <p className="text-xs text-gray-400 flex items-center gap-1">
+                  <Sparkles className="h-3 w-3" />
+                  AI-powered • Instant answers
+                </p>
               </div>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Close chat">
@@ -226,7 +164,7 @@ export function ChatButton() {
                         ? "bg-primary text-primary-foreground rounded-br-none"
                         : msg.role === "assistant"
                         ? "bg-muted text-foreground rounded-bl-none"
-                        : "bg-destructive/20 text-destructive-foreground border border-destructive rounded-bl-none" // Error style
+                        : "bg-destructive/20 text-destructive-foreground border border-destructive rounded-bl-none"
                     }`}
                   >
                     <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
@@ -245,6 +183,26 @@ export function ChatButton() {
                   )}
                 </div>
               ))}
+              
+              {/* Suggested Questions */}
+              {showSuggestions && messages.length <= 1 && (
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-400 font-medium">💡 Try asking:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {chatService.getSuggestedQuestions().slice(0, 4).map((suggestion, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        size="sm"
+                        className="text-xs h-auto py-2 px-3 rounded-full bg-muted/50 hover:bg-muted border-gray-600"
+                        onClick={() => handleSuggestionClick(suggestion)}
+                      >
+                        {suggestion}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )}
               
               {/* Loading Indicator */}
               {isLoading && (
