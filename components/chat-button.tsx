@@ -1,17 +1,17 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { MessageCircle, X, ArrowUp, Loader2, Bot, User, AlertTriangle, Sparkles } from "lucide-react"
+import { MessageCircle, X, ArrowUp, Loader2, Bot, User, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
+import { aiChatService } from "@/lib/ai-chat-service"
 import { chatService } from "@/lib/chat-service"
 
 type Message = {
   id: string
-  role: "user" | "assistant" | "error" // Added error role
+  role: "user" | "assistant" | "error"
   content: string
   timestamp: Date
 }
@@ -28,8 +28,23 @@ export function ChatButton() {
     },
   ])
   const [isLoading, setIsLoading] = useState(false)
+  const [useAI, setUseAI] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(true)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
+
+  // Check AI availability on component mount
+  useEffect(() => {
+    const checkAI = async () => {
+      const isAvailable = await aiChatService.checkAvailability()
+      setUseAI(isAvailable)
+      if (isAvailable) {
+        console.log('✅ AI service available - using Hugging Face LLM')
+      } else {
+        console.log('⚠️ AI service not available - using keyword-based chat')
+      }
+    }
+    checkAI()
+  }, [])
 
   // Scroll to bottom when messages update
   useEffect(() => {
@@ -53,21 +68,31 @@ export function ChatButton() {
     }
     
     setMessages((prev) => [...prev, userMessage])
+    const currentMessage = message
     setMessage("")
     setIsLoading(true)
-    setShowSuggestions(false) // Hide suggestions after first message
+    setShowSuggestions(false)
 
     try {
-      // Simulate a small delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 500))
+      let responseContent: string
 
-      // Get intelligent response from chat service
-      const response = chatService.getResponse(userMessage.content)
+      if (useAI) {
+        // Use AI service (Hugging Face LLM with system instructions)
+        try {
+          responseContent = await aiChatService.getAIResponse(currentMessage)
+        } catch (aiError) {
+          console.warn('AI service failed, falling back to keyword-based chat:', aiError)
+          responseContent = chatService.getResponse(currentMessage)
+        }
+      } else {
+        // Use keyword-based chat service
+        responseContent = chatService.getResponse(currentMessage)
+      }
       
       const assistantMessage: Message = {
-        id: Date.now().toString(),
+        id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: response,
+        content: responseContent,
         timestamp: new Date(),
       }
       
@@ -80,9 +105,9 @@ export function ChatButton() {
       setMessages((prev) => [
         ...prev,
         {
-          id: Date.now().toString(),
+          id: (Date.now() + 1).toString(),
           role: "error",
-          content: "Sorry, I couldn't process your request. Please try again later.",
+          content: "Sorry, I'm having trouble responding right now. Please try again in a moment, or feel free to contact Jérémie directly at jeremie@aims.ac.za.",
           timestamp: new Date(),
         },
       ])
@@ -91,10 +116,10 @@ export function ChatButton() {
     }
   }
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setMessage(suggestion)
+  const handleSuggestedQuestion = (question: string) => {
+    setMessage(question)
     setShowSuggestions(false)
-    // Auto-send the suggestion
+    // Trigger send after setting message
     setTimeout(() => handleSendMessage(), 100)
   }
 
@@ -103,8 +128,8 @@ export function ChatButton() {
       {/* Floating chat button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg z-50 transition-all duration-200 ${
-          isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90 animate-pulse"
+        className={`fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg z-50 transition-colors duration-200 ${
+          isOpen ? "bg-destructive hover:bg-destructive/90" : "bg-primary hover:bg-primary/90"
         }`}
         size="icon"
         aria-label={isOpen ? "Close chat" : "Open chat"}
@@ -120,15 +145,20 @@ export function ChatButton() {
             <div className="flex items-center gap-3">
               <Avatar className="border-2 border-primary">
                 <AvatarImage src="/images/profile.jpg" alt="Jérémie N. Mabiala" />
+                <AvatarFallback>JM</AvatarFallback>
               </Avatar>
               <div>
                 <h3 className="font-medium flex items-center gap-1.5">
                   <Bot className="h-4 w-4 text-primary" />
                   Ask Jérémie's Assistant
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                    useAI ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                  }`}>
+                    {useAI ? 'AI' : 'Smart'}
+                  </span>
                 </h3>
-                <p className="text-xs text-gray-400 flex items-center gap-1">
-                  <Sparkles className="h-3 w-3" />
-                  AI-powered • Instant answers
+                <p className="text-xs text-gray-400">
+                  {useAI ? 'Powered by Hugging Face LLM' : 'Keyword-based responses'}
                 </p>
               </div>
             </div>
@@ -187,20 +217,16 @@ export function ChatButton() {
               {/* Suggested Questions */}
               {showSuggestions && messages.length <= 1 && (
                 <div className="space-y-2">
-                  <p className="text-xs text-gray-400 font-medium">💡 Try asking:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {chatService.getSuggestedQuestions().slice(0, 4).map((suggestion, index) => (
-                      <Button
-                        key={index}
-                        variant="outline"
-                        size="sm"
-                        className="text-xs h-auto py-2 px-3 rounded-full bg-muted/50 hover:bg-muted border-gray-600"
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion}
-                      </Button>
-                    ))}
-                  </div>
+                  <p className="text-xs text-gray-400 font-medium">Suggested questions:</p>
+                  {aiChatService.getSuggestedQuestions().slice(0, 4).map((question, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSuggestedQuestion(question)}
+                      className="w-full text-left p-2 text-xs bg-muted/50 hover:bg-muted rounded border border-border/50 hover:border-border transition-colors"
+                    >
+                      {question}
+                    </button>
+                  ))}
                 </div>
               )}
               
@@ -215,7 +241,7 @@ export function ChatButton() {
                   <div className="max-w-[80%] rounded-lg p-3 bg-muted rounded-bl-none">
                     <div className="flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <p className="text-sm">Thinking...</p>
+                      <p className="text-sm">{useAI ? 'AI is thinking...' : 'Processing...'}</p>
                     </div>
                   </div>
                 </div>

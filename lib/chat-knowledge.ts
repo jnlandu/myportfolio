@@ -1,10 +1,10 @@
-// Personal knowledge base for the chat assistant
-// This contains structured information about Jérémie N. Mabiala
+// Personal knowledge base for Jérémie N. Mabiala's AI assistant
+// This contains structured information for the AI to use when responding
 
 export interface ChatContext {
+  category: string
   keywords: string[]
   response: string
-  category: string
 }
 
 export const personalInfo = {
@@ -23,190 +23,93 @@ export const personalInfo = {
 export const chatContexts: ChatContext[] = [
   // Personal Introduction
   {
+    category: "introduction",
     keywords: ["who", "about", "yourself", "introduction", "bio", "biography"],
-    response: `Hi! I'm Jérémie N. Mabiala (you can call me Jeremy). I'm currently a resident tutor in Artificial Intelligence at AMMI (African Masters in Machine Intelligence), a flagship program in AI founded by Google and Meta, hosted at AIMS Senegal.
-
-I'm passionate about the intersection of theoretical mathematics and practical AI applications. My journey spans from pure mathematics to cutting-edge AI research!`,
-    category: "personal"
+    response: "I'm Jérémie N. Mabiala, a Resident Tutor in Artificial Intelligence at AMMI (African Masters in Machine Intelligence) at AIMS Senegal. I'm passionate about machine learning, particularly computer vision, natural language processing, and statistical learning theory. I love combining theoretical mathematical insights with practical AI applications."
   },
 
-  // Education Background
+  // Current Position & Work
   {
-    keywords: ["education", "school", "university", "degree", "master", "bachelor", "studies", "academic"],
-    response: `My academic journey includes:
-
-**Current (2024-2025)**: MSc in AI at AMMI, African Institute for Mathematical Sciences, Senegal
-**2023-2024**: Master's in Mathematical Sciences at Stellenbosch University & AIMS South Africa
-   - Specialized in Mathematical Statistics and Functional Data Analysis
-   - Thesis: "Gaussian Processes for Multivariate Functional Data"
-**Bachelor's**: Mathematics degree from University of Kinshasa, Congo (graduated top 5% with Grande Distinction)
-
-I also served as a teaching assistant and subsidiary lecturer for two years during my bachelor's!`,
-    category: "education"
+    category: "current_work",
+    keywords: ["work", "job", "position", "current", "ammi", "aims", "tutor", "teaching"],
+    response: "I currently work as a Resident Tutor in Artificial Intelligence at AMMI (African Masters in Machine Intelligence) at AIMS Senegal in Mbour. In this role, I teach and mentor students in various AI and machine learning topics, guide research projects, and contribute to the academic community in Africa. AMMI is a one-year intensive master's program that trains the next generation of African AI researchers and practitioners."
   },
 
-  // Research & Expertise
+  // Education
   {
-    keywords: ["research", "expertise", "specialization", "work", "thesis", "papers", "publications"],
-    response: `My research focuses on:
+    category: "education",
+    keywords: ["education", "study", "degree", "university", "academic", "background", "school"],
+    response: "I'm currently pursuing an African Masters in Machine Intelligence (AMMI) at AIMS Senegal. Before this, I built a strong foundation in mathematics and computer science. My academic journey has always focused on the intersection of mathematics, statistics, and computer science, which naturally led me to specialize in machine learning and AI."
+  },
 
-**Machine Learning Theory**: Developing novel mathematical approaches to AI problems
-**Functional Data Analysis**: Working with complex, high-dimensional functional datasets
-**Mathematical Modeling**: Applying mathematical principles to real-world AI challenges
-**Deep Learning**: Theoretical aspects and practical applications
-**Gaussian Processes**: My master's thesis explored these for multivariate functional data
-
-I'm particularly interested in the theoretical foundations of ML/DL and their applications to complex problems.`,
-    category: "research"
+  // Research Interests
+  {
+    category: "research",
+    keywords: ["research", "interests", "focus", "projects", "papers", "publications", "science"],
+    response: "My research focuses on several key areas: computer vision (image processing, object detection, pattern recognition), natural language processing (text analysis, language models), and statistical learning theory (mathematical foundations of ML algorithms). I'm particularly interested in developing novel mathematical approaches to solve real-world AI problems and making these techniques accessible to researchers across Africa."
   },
 
   // Technical Skills
   {
-    keywords: ["skills", "programming", "languages", "technologies", "tools", "python", "tensorflow", "pytorch"],
-    response: `My technical toolkit includes:
-
-**Programming**: Python (primary), R, JavaScript, LaTeX
-**ML/AI Frameworks**: TensorFlow, PyTorch, Scikit-learn, Keras
-**Data Science**: Pandas, NumPy, Matplotlib, Seaborn
-**Statistical Tools**: R, SPSS, mathematical modeling
-**Web Development**: Next.js, React, HTML/CSS (built this portfolio!)
-**Other Tools**: Git, Jupyter, Docker, cloud platforms
-
-I'm constantly learning new technologies and staying updated with the latest in AI research!`,
-    category: "skills"
+    category: "skills",
+    keywords: ["skills", "programming", "languages", "technologies", "tools", "software", "code"],
+    response: "I'm proficient in Python (my primary language for AI/ML), R (for statistical analysis), JavaScript and TypeScript (for web development). For machine learning, I work with PyTorch, TensorFlow, scikit-learn, and Hugging Face transformers. I also have experience with web technologies like React, Next.js, FastAPI, and Node.js. I'm comfortable with tools like Git, Docker, Jupyter notebooks, and Google Colab for development and research."
   },
 
   // Projects
   {
-    keywords: ["projects", "work", "portfolio", "built", "created", "developed"],
-    response: `Some of my key projects include:
-
-**Personal Portfolio Website**: This very site you're on! Built with Next.js, featuring blog, analytics, and this chat system
-**StudyBuddy Mobile App**: A productivity app for students with note-taking, pomodoro timer, and collaboration features
-**Research Projects**: Various ML applications in functional data analysis and mathematical modeling
-
-I enjoy building both theoretical research projects and practical applications that solve real-world problems. Check out my projects section for more details!`,
-    category: "projects"
+    category: "projects",
+    keywords: ["projects", "portfolio", "work", "built", "developed", "github"],
+    response: "I work on various machine learning projects ranging from computer vision applications to NLP systems. You can check out my GitHub (github.com/jnlandu) to see some of my code and projects. I also enjoy building educational tools and resources to help others learn AI and machine learning concepts. This portfolio website itself is one of my projects, featuring an AI assistant (that's me!) to answer questions about my background."
   },
 
-  // Current Work & Interests
+  // Contact Information
   {
-    keywords: ["current", "now", "doing", "interests", "ammi", "tutor", "teaching"],
-    response: `Currently, I'm a resident tutor at AMMI (African Masters in Machine Intelligence) in Senegal, where I:
-
-**Teach**: AI and ML concepts to the next generation of African AI researchers
-**Research**: Continue my work on mathematical foundations of machine learning
-**Collaborate**: Work with brilliant minds from across Africa on cutting-edge AI projects
-**Learn**: Constantly expanding my knowledge in the rapidly evolving field of AI
-
-I'm passionate about combining rigorous mathematical theory with practical AI applications, and I love sharing knowledge with others!`,
-    category: "current"
+    category: "contact",
+    keywords: ["contact", "email", "reach", "get in touch", "linkedin", "social", "connect"],
+    response: "You can reach me through several channels: Email me at jeremie@aims.ac.za (work) or jeremy@aimsammi.org (AMMI-related), or jnlandu00@gmail.com (personal). You can also connect with me on LinkedIn at linkedin.com/in/jeremienlandu or check out my code on GitHub at github.com/jnlandu. I'm always open to discussing research collaborations, AI projects, or questions about AMMI and AI education in Africa."
   },
 
-  // Languages
+  // AMMI & AIMS
   {
-    keywords: ["languages", "speak", "french", "english", "lingala", "swahili"],
-    response: `I'm multilingual! I speak:
-
-**English**: Fluent (professional working language)
-**French**: Native speaker
-**Lingala**: Native speaker (Congolese language)
-
-This multilingual background helps me collaborate effectively across different African regions and international research communities!`,
-    category: "languages"
+    category: "ammi_aims",
+    keywords: ["ammi", "aims", "senegal", "africa", "masters", "program", "students"],
+    response: "AMMI (African Masters in Machine Intelligence) is a one-year intensive master's program hosted by AIMS (African Institute for Mathematical Sciences) centers across Africa. Our Senegal center is in Mbour. AMMI trains the next generation of African AI researchers and practitioners through rigorous coursework, research projects, and industry collaborations. As a Resident Tutor, I help design curriculum, teach courses, mentor students, and ensure they're well-prepared for careers in AI research or industry."
   },
 
-  // Location & Background
+  // Location
   {
-    keywords: ["location", "where", "from", "congo", "senegal", "africa"],
-    response: `🌍 I'm originally from the Democratic Republic of Congo (DRC), where I completed my bachelor's at the University of Kinshasa.
-
-Currently based in Mbour, Senegal, at AIMS (African Institute for Mathematical Sciences).
-
-My African heritage and cross-continental experience give me a unique perspective on how AI can address challenges and opportunities across the continent!`,
-    category: "location"
+    category: "location",
+    keywords: ["where", "location", "live", "based", "senegal", "mbour", "africa"],
+    response: "I'm currently based in Mbour, Senegal, where the AIMS Senegal center is located. It's a beautiful coastal city about an hour from Dakar. Being in Senegal has been an incredible experience - I get to work with brilliant students from across Africa and contribute to the growing AI ecosystem on the continent."
   },
 
-  // Contact & Collaboration
+  // Future Goals
   {
-    keywords: ["contact", "email", "reach", "collaborate", "work together", "hire"],
-    response: `I'd love to connect! You can reach me at:
-
-**Professional**: jeremie@aims.ac.za or jeremy@aimsammi.org
-**Personal**: jnlandu00@gmail.com
-**LinkedIn**: linkedin.com/in/jeremienlandu
-**GitHub**: github.com/jnlandu
-**Twitter/X**: @ValentinMabiala
-
-I'm always excited to discuss:
-- Research collaborations
-- AI/ML projects
-- Teaching opportunities
-- Mathematical modeling challenges
-
-Feel free to reach out whether you have questions, opportunities, or just want to connect with a fellow AI enthusiast!`,
-    category: "contact"
-  },
-
-  // Blog & Writing
-  {
-    keywords: ["blog", "writing", "articles", "tutorials", "content"],
-    response: `I write about AI, mathematics, and research on my blog! You can find articles about:
-
-**Technical Tutorials**: Machine learning concepts, mathematical foundations
-**Research Insights**: Sharing findings from my work in functional data analysis
-**Educational Content**: Making complex AI concepts accessible
-**Personal Reflections**: My journey in AI and academia
-
-Check out the blog section of this website for my latest posts. I enjoy breaking down complex topics and sharing knowledge with the community!`,
-    category: "blog"
-  },
-
-  // Hobbies & Personal
-  {
-    keywords: ["hobbies", "personal", "interests", "free time", "music", "reading", "podcasts"],
-    response: `When I'm not doing math or training neural networks, I enjoy:
-
-**Reading**: Always curious about new technologies and history
-**Music & Podcasts**: Love listening to music and educational podcasts
-**Hobbyist Development**: Building small projects and exploring new technologies
-**Writing**: Both technical content and creative writing
-**Exploring**: Learning about different cultures and staying curious about the world
-
-I believe in maintaining a balance between rigorous academic work and personal interests that keep me inspired and creative!`,
-    category: "personal"
-  },
-
-  // Goals & Vision
-  {
-    keywords: ["goals", "vision", "future", "plans", "aspirations", "dream"],
-    response: `My vision is to bridge the gap between theoretical mathematics and practical AI applications, particularly in addressing challenges relevant to Africa and the developing world.
-
-**Short-term**: Excel as an AI tutor at AMMI and contribute to advancing AI education in Africa
-**Research**: Continue exploring the mathematical foundations of machine learning
-**Long-term**: Contribute to AI research that has positive impact on society, particularly in educational and healthcare applications
-**Community**: Build bridges between African AI researchers and the global research community
-
-I'm passionate about using my skills to make AI more accessible and beneficial for everyone!`,
-    category: "goals"
+    category: "goals",
+    keywords: ["future", "goals", "plans", "vision", "next", "career"],
+    response: "My goal is to continue advancing AI research and education in Africa. I want to bridge the gap between theoretical AI research and practical applications that can solve real problems across the continent. I'm also passionate about making AI education more accessible and building the next generation of African AI talent through programs like AMMI."
   }
 ]
 
-// Fallback responses for unmatched queries
 export const fallbackResponses = [
-  "That's an interesting question! Could you be more specific? I can tell you about Jérémie's research, education, current work, or personal interests.",
-  "I'd be happy to help! Try asking about his background, research areas, current projects, or how to get in touch with him.",
-  "Feel free to ask me about Jérémie's academic journey, technical skills, research interests, or current work at AMMI!",
-  "I can share information about his education, research in functional data analysis, AI expertise, or current role as an AI tutor. What interests you most?"
+  "That's an interesting question! While I might not have specific information about that topic, feel free to ask me about my research, work at AMMI, technical background, or how to get in touch.",
+  "I'd love to help, but I might need a bit more context. You can ask me about my work in AI, my role at AMMI, my technical skills, or my research interests.",
+  "Hmm, I'm not sure I have the exact information you're looking for. Try asking about my education, current work, research focus, or contact information.",
+  "Great question! I specialize in topics related to AI, machine learning, and my work at AMMI. Feel free to ask about any of these areas or how to connect with me."
 ]
 
-// Suggested questions to guide users
 export const suggestedQuestions = [
-  "Tell me about Jérémie's background",
-  "What is his research about?",
-  "What are his technical skills?",
-  "How can I contact him?",
-  "What is AMMI?",
-  "What languages does he speak?",
-  "What are his current projects?"
+  "What's your current research focus?",
+  "Tell me about your work at AMMI",
+  "What programming languages do you use?",
+  "What's your educational background?",
+  "How can I contact you?",
+  "What projects are you working on?",
+  "What is AMMI and what do you do there?",
+  "What are your main areas of expertise?",
+  "What's it like working in Senegal?",
+  "How did you get into AI and machine learning?",
+  "What advice do you have for aspiring AI researchers?",
+  "What are some interesting AI applications you've worked on?"
 ]

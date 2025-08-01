@@ -29,3 +29,5 @@ next-env.d.ts
 .vscode
 
 .gitignore
+
+app/api/api/
