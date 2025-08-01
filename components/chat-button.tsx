@@ -30,6 +30,7 @@ export function ChatButton() {
   const [isLoading, setIsLoading] = useState(false)
   const [useAI, setUseAI] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(true)
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
   // Check AI availability on component mount
@@ -73,46 +74,113 @@ export function ChatButton() {
     setIsLoading(true)
     setShowSuggestions(false)
 
-    try {
-      let responseContent: string
+    // Create assistant message placeholder for streaming
+    const assistantMessageId = (Date.now() + 1).toString()
+    const assistantMessage: Message = {
+      id: assistantMessageId,
+      role: "assistant",
+      content: "",
+      timestamp: new Date(),
+    }
+    setMessages((prev) => [...prev, assistantMessage])
 
+    try {
       if (useAI) {
-        // Use AI service (Hugging Face LLM with system instructions)
+        // Use AI service with streaming
         try {
-          responseContent = await aiChatService.getAIResponse(currentMessage)
+          setStreamingMessageId(assistantMessageId)
+          await aiChatService.getAIResponseStream(
+            currentMessage,
+            // onChunk - update the message as we receive chunks
+            (chunk: string) => {
+              setMessages((prev) => 
+                prev.map(msg => 
+                  msg.id === assistantMessageId 
+                    ? { ...msg, content: msg.content + chunk }
+                    : msg
+                )
+              )
+            },
+            // onComplete - streaming finished
+            (fullResponse: string) => {
+              setMessages((prev) => 
+                prev.map(msg => 
+                  msg.id === assistantMessageId 
+                    ? { ...msg, content: fullResponse }
+                    : msg
+                )
+              )
+              setStreamingMessageId(null)
+            },
+            // onError - streaming failed
+            (error: Error) => {
+              console.warn('AI streaming failed, falling back to keyword-based chat:', error)
+              const fallbackResponse = chatService.getResponse(currentMessage)
+              setMessages((prev) => 
+                prev.map(msg => 
+                  msg.id === assistantMessageId 
+                    ? { ...msg, content: fallbackResponse }
+                    : msg
+                )
+              )
+              setStreamingMessageId(null)
+            }
+          )
         } catch (aiError) {
           console.warn('AI service failed, falling back to keyword-based chat:', aiError)
-          responseContent = chatService.getResponse(currentMessage)
+          const fallbackResponse = chatService.getResponse(currentMessage)
+          setMessages((prev) => 
+            prev.map(msg => 
+              msg.id === assistantMessageId 
+                ? { ...msg, content: fallbackResponse }
+                : msg
+            )
+          )
+          setStreamingMessageId(null)
         }
       } else {
-        // Use keyword-based chat service
-        responseContent = chatService.getResponse(currentMessage)
+        // Use keyword-based chat service (simulate streaming for consistency)
+        setStreamingMessageId(assistantMessageId)
+        const responseContent = chatService.getResponse(currentMessage)
+        
+        // Simulate streaming by typing out the response
+        let currentContent = ""
+        const words = responseContent.split(' ')
+        
+        for (let i = 0; i < words.length; i++) {
+          currentContent += (i > 0 ? ' ' : '') + words[i]
+          setMessages((prev) => 
+            prev.map(msg => 
+              msg.id === assistantMessageId 
+                ? { ...msg, content: currentContent }
+                : msg
+            )
+          )
+          // Small delay between words for typing effect
+          await new Promise(resolve => setTimeout(resolve, 50))
+        }
+        setStreamingMessageId(null)
       }
-      
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: responseContent,
-        timestamp: new Date(),
-      }
-      
-      setMessages((prev) => [...prev, assistantMessage])
       
     } catch (error) {
       console.error("Failed to get response:", error)
       
-      // Add error message
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          role: "error",
-          content: "Sorry, I'm having trouble responding right now. Please try again in a moment, or feel free to contact Jérémie directly at jeremie@aims.ac.za.",
-          timestamp: new Date(),
-        },
-      ])
+      // Update the assistant message to show error
+      setMessages((prev) => 
+        prev.map(msg => 
+          msg.id === assistantMessageId 
+            ? { 
+                ...msg, 
+                role: "error" as const,
+                content: "Sorry, I'm having trouble responding right now. Please try again in a moment, or feel free to contact Jérémie directly at jeremie@aims.ac.za."
+              }
+            : msg
+        )
+      )
+      setStreamingMessageId(null)
     } finally {
       setIsLoading(false)
+      setStreamingMessageId(null)
     }
   }
 
@@ -197,7 +265,13 @@ export function ChatButton() {
                         : "bg-destructive/20 text-destructive-foreground border border-destructive rounded-bl-none"
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    <p className="text-sm whitespace-pre-wrap">
+                      {msg.content}
+                      {/* Show blinking cursor for streaming messages */}
+                      {streamingMessageId === msg.id && (
+                        <span className="inline-block w-2 h-4 bg-current ml-1 animate-pulse">|</span>
+                      )}
+                    </p>
                     <span className="text-xs opacity-70 block mt-1 text-right">
                       {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </span>
@@ -230,7 +304,7 @@ export function ChatButton() {
                 </div>
               )}
               
-              {/* Loading Indicator */}
+              {/* Loading/Typing Indicator */}
               {isLoading && (
                 <div className="flex justify-start gap-2 items-start">
                    <Avatar className="h-6 w-6 mt-1 bg-muted">
@@ -240,7 +314,11 @@ export function ChatButton() {
                     </Avatar>
                   <div className="max-w-[80%] rounded-lg p-3 bg-muted rounded-bl-none">
                     <div className="flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      </div>
                       <p className="text-sm">{useAI ? 'AI is thinking...' : 'Processing...'}</p>
                     </div>
                   </div>

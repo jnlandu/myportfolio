@@ -103,6 +103,106 @@ INSTRUCTIONS:
     }
   }
 
+  // Streaming method to get AI response with real-time updates
+  async getAIResponseStream(
+    userMessage: string, 
+    onChunk: (chunk: string) => void,
+    onComplete: (fullResponse: string) => void,
+    onError: (error: Error) => void
+  ): Promise<void> {
+    if (!this.apiKey) {
+      onError(new Error('Hugging Face API key not configured'))
+      return
+    }
+
+    try {
+      const messages: ChatMessage[] = [
+        {
+          role: "system",
+          content: this.systemPrompt
+        },
+        {
+          role: "user", 
+          content: userMessage
+        }
+      ]
+
+      const response = await fetch(
+        "https://router.huggingface.co/v1/chat/completions",
+        {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            messages,
+            model: this.model,
+            max_tokens: 300,
+            temperature: 0.7,
+            top_p: 0.9,
+            stream: true
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        onError(new Error(`Hugging Face API error (${response.status}): ${errorText}`))
+        return
+      }
+
+      const reader = response.body?.getReader()
+      if (!reader) {
+        onError(new Error('Failed to get response stream'))
+        return
+      }
+
+      let fullResponse = ''
+      const decoder = new TextDecoder()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value, { stream: true })
+          const lines = chunk.split('\n')
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6)
+              if (data === '[DONE]') {
+                onComplete(fullResponse.trim())
+                return
+              }
+
+              try {
+                const parsed = JSON.parse(data)
+                const content = parsed.choices?.[0]?.delta?.content
+                if (content) {
+                  fullResponse += content
+                  onChunk(content)
+                }
+              } catch (parseError) {
+                // Ignore parsing errors for individual chunks
+                continue
+              }
+            }
+          }
+        }
+
+        onComplete(fullResponse.trim())
+      } finally {
+        reader.releaseLock()
+      }
+
+    } catch (error) {
+      console.error('AI streaming failed:', error)
+      onError(error as Error)
+    }
+  }
+
   // Query the Hugging Face chat completions API
   private async query(data: {
     messages: ChatMessage[]
