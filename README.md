@@ -12,11 +12,13 @@ I've crafted this portfolio to give you a comprehensive look at who I am and wha
 - **Blog & Tutorials** : Where I share knowledge and explain complex AI concepts.
 - **Gallery** : Visual moments from my academic journey
 - **Contact** : Let's connect! 
+- **AI Chat Assistant** : Ask questions about my background, research, and experience
 
 ## What Makes This Special
 
 I didn't just throw together a basic portfolio. I wanted something that truly represents me:
 
+- **AI-Powered Chat** - Interactive assistant to answer questions about my work and background
 - **Fully Responsive** - Looks great whether you're on your phone or desktop
 - **Dark Theme** - Easy on the eyes for those late-night research sessions
 - **Interactive Elements** - Smooth animations and engaging user experience
@@ -63,6 +65,30 @@ I'd be honored if you want to check out my code or even use it as inspiration fo
 
 4. **Check it out**
    Open [http://localhost:3001](http://localhost:3001) (might be 3000 if that's free) and voilà!
+
+### Optional: Enable AI Chat Features
+
+The portfolio includes an AI-powered chat assistant that can answer questions about your background. To enable this:
+
+1. **Copy the environment file**
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. **Get a Hugging Face API key**
+   - Visit [Hugging Face Settings](https://huggingface.co/settings/tokens)
+   - Create a new token with read permissions
+   - Add it to your `.env.local` file:
+   ```bash
+   HUGGINGFACE_API_KEY=your_actual_api_key_here
+   ```
+
+3. **Restart the development server**
+   ```bash
+   pnpm dev
+   ```
+
+The chat button will automatically detect when AI features are available and switch between AI-powered responses and smart keyword-based responses.
 
 ## How I Organized Everything
 

@@ -1,4 +1,5 @@
 import { chatContexts, personalInfo } from './chat-knowledge'
+import { getRagService, isRAGEnabled } from './rag-service'
 
 interface ChatMessage {
   role: "system" | "user" | "assistant"
@@ -57,7 +58,32 @@ INSTRUCTIONS:
 - Use emojis sparingly and appropriately
 - If someone asks about contact information, provide the relevant email or social links
 - When discussing technical topics, feel free to go into appropriate depth
-- Remember you are currently a Resident Tutor at AMMI (African Masters in Machine Intelligence) at AIMS Senegal`
+- Remember you are currently a Resident Tutor at AMMI (African Masters in Machine Intelligence) at AIMS Senegal
+- If provided with CONTEXT from documents, use that information to give more detailed and accurate answers
+- When referencing information from documents, you can mention where it comes from (e.g., "In my blog post about...", "In my research paper...")
+
+IMPORTANT: If CONTEXT is provided below, use it to enhance your response with specific details, but still maintain your personal voice as Jérémie.`
+  }
+
+  // Enhanced method to build context-aware system prompt
+  private async buildContextAwareSystemPrompt(userMessage: string): Promise<string> {
+    let basePrompt = this.buildSystemPrompt()
+    
+    // Check if RAG is enabled and try to get relevant context
+    if (isRAGEnabled()) {
+      try {
+        const ragService = getRagService()
+        const relevantContext = await ragService.buildRAGContext(userMessage)
+        
+        if (relevantContext.trim()) {
+          basePrompt += `\n\nCONTEXT FROM YOUR DOCUMENTS:\n${relevantContext}\n\nUse this context to provide more detailed and specific answers when relevant.`
+        }
+      } catch (error) {
+        console.warn('RAG context retrieval failed, continuing without context:', error)
+      }
+    }
+    
+    return basePrompt
   }
 
   // Check if the service is available
@@ -65,17 +91,20 @@ INSTRUCTIONS:
     return !!this.apiKey
   }
 
-  // Main method to get AI response
+  // Main method to get AI response with RAG enhancement
   async getAIResponse(userMessage: string): Promise<string> {
     if (!this.apiKey) {
       throw new Error('Hugging Face API key not configured')
     }
 
     try {
+      // Get context-aware system prompt (includes RAG if enabled)
+      const enhancedSystemPrompt = await this.buildContextAwareSystemPrompt(userMessage)
+      
       const messages: ChatMessage[] = [
         {
           role: "system",
-          content: this.systemPrompt
+          content: enhancedSystemPrompt
         },
         {
           role: "user", 
@@ -86,7 +115,7 @@ INSTRUCTIONS:
       const response = await this.query({
         messages,
         model: this.model,
-        max_tokens: 300,
+        max_tokens: 400, // Increased for potentially longer context-aware responses
         temperature: 0.7,
         top_p: 0.9
       })
@@ -103,7 +132,7 @@ INSTRUCTIONS:
     }
   }
 
-  // Streaming method to get AI response with real-time updates
+  // Streaming method to get AI response with real-time updates and RAG enhancement
   async getAIResponseStream(
     userMessage: string, 
     onChunk: (chunk: string) => void,
@@ -116,10 +145,13 @@ INSTRUCTIONS:
     }
 
     try {
+      // Get context-aware system prompt (includes RAG if enabled)
+      const enhancedSystemPrompt = await this.buildContextAwareSystemPrompt(userMessage)
+      
       const messages: ChatMessage[] = [
         {
           role: "system",
-          content: this.systemPrompt
+          content: enhancedSystemPrompt
         },
         {
           role: "user", 
@@ -138,7 +170,7 @@ INSTRUCTIONS:
           body: JSON.stringify({
             messages,
             model: this.model,
-            max_tokens: 300,
+            max_tokens: 400, // Increased for potentially longer context-aware responses
             temperature: 0.7,
             top_p: 0.9,
             stream: true
@@ -233,7 +265,7 @@ INSTRUCTIONS:
 
   // Get suggested questions for the UI
   getSuggestedQuestions(): string[] {
-    return [
+    const baseQuestions = [
       "What's your current research focus?",
       "Tell me about your work at AMMI",
       "What programming languages do you use?",
@@ -243,6 +275,49 @@ INSTRUCTIONS:
       "What is AMMI and what do you do there?",
       "What are your main areas of expertise?"
     ]
+
+    // Add RAG-enhanced questions if RAG is enabled
+    if (isRAGEnabled()) {
+      baseQuestions.push(
+        "Tell me about your latest blog posts",
+        "What research papers have you written?",
+        "Can you explain your work on Bayesian methods?",
+        "What's your take on functional data analysis?"
+      )
+    }
+
+    return baseQuestions
+  }
+
+  // Check if RAG is enabled and working
+  async isRAGAvailable(): Promise<boolean> {
+    if (!isRAGEnabled()) {
+      return false
+    }
+
+    try {
+      const ragService = getRagService()
+      return await ragService.isHealthy()
+    } catch (error) {
+      console.warn('RAG availability check failed:', error)
+      return false
+    }
+  }
+
+  // Get RAG statistics
+  async getRAGStats(): Promise<any> {
+    if (!isRAGEnabled()) {
+      return { enabled: false }
+    }
+
+    try {
+      const ragService = getRagService()
+      const stats = await ragService.getStats()
+      return { enabled: true, ...stats }
+    } catch (error) {
+      console.warn('Failed to get RAG stats:', error)
+      return { enabled: true, error: error instanceof Error ? error.message : String(error) }
+    }
   }
 
   // Switch to a different model

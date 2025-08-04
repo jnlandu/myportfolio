@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
-import { aiChatService } from "@/lib/ai-chat-service"
-import { chatService } from "@/lib/chat-service"
+import { clientChatService } from "@/lib/client-chat-service"
+import { keywordChatService } from "@/lib/keyword-chat-service"
 
 type Message = {
   id: string
@@ -36,7 +36,7 @@ export function ChatButton() {
   // Check AI availability on component mount
   useEffect(() => {
     const checkAI = async () => {
-      const isAvailable = await aiChatService.checkAvailability()
+      const isAvailable = await clientChatService.checkAvailability()
       setUseAI(isAvailable)
       if (isAvailable) {
         console.log('✅ AI service available - using Hugging Face LLM')
@@ -89,7 +89,7 @@ export function ChatButton() {
         // Use AI service with streaming
         try {
           setStreamingMessageId(assistantMessageId)
-          await aiChatService.getAIResponseStream(
+          await clientChatService.getAIResponseStream(
             currentMessage,
             // onChunk - update the message as we receive chunks
             (chunk: string) => {
@@ -115,7 +115,7 @@ export function ChatButton() {
             // onError - streaming failed
             (error: Error) => {
               console.warn('AI streaming failed, falling back to keyword-based chat:', error)
-              const fallbackResponse = chatService.getResponse(currentMessage)
+              const fallbackResponse = keywordChatService.getResponse(currentMessage)
               setMessages((prev) => 
                 prev.map(msg => 
                   msg.id === assistantMessageId 
@@ -128,7 +128,7 @@ export function ChatButton() {
           )
         } catch (aiError) {
           console.warn('AI service failed, falling back to keyword-based chat:', aiError)
-          const fallbackResponse = chatService.getResponse(currentMessage)
+          const fallbackResponse = keywordChatService.getResponse(currentMessage)
           setMessages((prev) => 
             prev.map(msg => 
               msg.id === assistantMessageId 
@@ -141,7 +141,7 @@ export function ChatButton() {
       } else {
         // Use keyword-based chat service (simulate streaming for consistency)
         setStreamingMessageId(assistantMessageId)
-        const responseContent = chatService.getResponse(currentMessage)
+        const responseContent = keywordChatService.getResponse(currentMessage)
         
         // Simulate streaming by typing out the response
         let currentContent = ""
@@ -292,7 +292,7 @@ export function ChatButton() {
               {showSuggestions && messages.length <= 1 && (
                 <div className="space-y-2">
                   <p className="text-xs text-gray-400 font-medium">Suggested questions:</p>
-                  {aiChatService.getSuggestedQuestions().slice(0, 4).map((question, index) => (
+                  {clientChatService.getSuggestedQuestions().slice(0, 4).map((question: string, index: number) => (
                     <button
                       key={index}
                       onClick={() => handleSuggestedQuestion(question)}
