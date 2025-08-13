@@ -5,22 +5,25 @@ import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { LanguageToggle } from "@/components/language-toggle"
+import { useTranslation } from "@/components/language-provider"
 
 export function MainNav() {
   const [isOpen, setIsOpen] = React.useState(false)
+  const t = useTranslation()
 
   const routes = [
-    { href: "/#home", label: "Home" },
-    { href: "/#about", label: "About" },
-    { href: "/#news", label: "News" },
-    { href: "/#projects", label: "Projects" },
-    // { href: "/#publications", label: "Publications" },
-    // { href: "/#education", label: "Education" },
-    // { href: "/#skills", label: "Skills" },
-    // { href: "/#motivations", label: "Motivations" },
-    // { href: "/#citations", label: "Citations" },
-    { href: "/blog", label: "Blog" },
-    // { href: "/#contact", label: "Contact" },
+    { href: "/#home", label: t.nav.home },
+    { href: "/#about", label: t.nav.about },
+    { href: "/#news", label: t.nav.news },
+    { href: "/#projects", label: t.nav.projects },
+    // { href: "/#publications", label: t.nav.publications },
+    // { href: "/#education", label: t.nav.education },
+    // { href: "/#skills", label: t.nav.skills },
+    // { href: "/#motivations", label: t.nav.motivations },
+    // { href: "/#citations", label: t.nav.citations },
+    { href: "/blog", label: t.nav.blog },
+    // { href: "/#contact", label: t.nav.contact },
   ]
 
   return (
@@ -34,8 +37,9 @@ export function MainNav() {
             {route.label}
           </Link>
         ))}
+        <LanguageToggle />
         <Button variant="outline" size="sm" asChild>
-          <Link href="/#contact">Get in Touch</Link>
+          <Link href="/#contact">{t.nav.getInTouch}</Link>
         </Button>
       </nav>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -57,6 +61,9 @@ export function MainNav() {
                 {route.label}
               </Link>
             ))}
+            <div className="mt-4">
+              <LanguageToggle />
+            </div>
           </div>
         </SheetContent>
       </Sheet>

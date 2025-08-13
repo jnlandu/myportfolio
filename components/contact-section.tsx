@@ -1,3 +1,5 @@
+"use client"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -5,8 +7,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, MapPin, MessageSquare, Send, Globe, Calendar, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { useTranslation } from "@/components/language-provider"
 
 export function ContactSection() {
+  const t = useTranslation()
+
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
       {/* Background gradient */}
@@ -16,15 +21,14 @@ export function ContactSection() {
         <div className="flex flex-col items-center text-center mb-16">
           <Badge variant="outline" className="mb-4 bg-primary/10 border-primary/30">
             <MessageSquare className="h-3 w-3 mr-1" />
-            Let's Connect
+            {t.contact.title}
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
-            Get In Touch
+            {t.contact.title}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-blue-400 rounded-full mb-6"></div>
           <p className="max-w-3xl text-lg text-gray-300 leading-relaxed">
-            I'm always excited to collaborate on research projects, discuss AI innovations, or connect with fellow researchers. 
-            Whether you have a question, opportunity, or just want to say hello, I'd love to hear from you.
+            {t.contact.subtitle}
           </p>
         </div>
 

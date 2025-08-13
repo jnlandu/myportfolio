@@ -9,6 +9,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, ArrowRight, ChevronRight, ChevronLeft } from "lucide-react"
 import { type NewsItem } from "@/lib/news"
+import { useTranslation } from "@/components/language-provider"
 
 interface NewsClientProps {
   allNewsItems: NewsItem[]
@@ -19,6 +20,7 @@ interface NewsClientProps {
 export function NewsClient({ allNewsItems, featuredNews, recentNews }: NewsClientProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 4
+  const t = useTranslation()
 
   const totalPages = Math.ceil(recentNews.length / itemsPerPage)
   const currentItems = recentNews.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
@@ -75,6 +77,18 @@ export function NewsClient({ allNewsItems, featuredNews, recentNews }: NewsClien
 
   return (
     <>
+      {/* Section Header */}
+      <div className="flex flex-col items-center text-center mb-12">
+        <Badge variant="outline" className="mb-4">
+          {t.news.title}
+        </Badge>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.news.title}</h2>
+        <div className="w-20 h-1 bg-primary rounded mb-6"></div>
+        <p className="max-w-2xl text-gray-400">
+          {t.news.subtitle}
+        </p>
+      </div>
+
       {/* Featured News */}
       {featuredNews && (
         <div className="mb-12">
@@ -226,6 +240,15 @@ export function NewsClient({ allNewsItems, featuredNews, recentNews }: NewsClien
           </Button>
         </div>
       )}
+
+      {/* View All News Button */}
+      <div className="mt-12 text-center">
+        <Button variant="outline" size="lg" asChild>
+          <Link href="/news">
+            <span>{t.news.viewAll}</span>
+          </Link>
+        </Button>
+      </div>
     </>
   )
 }
@@ -239,6 +262,8 @@ function NewsCard({
   getCategoryColor: (category: NewsItem["category"]) => string
   getCategoryLabel: (category: NewsItem["category"]) => string
 }) {
+  const t = useTranslation()
+
   return (
     <Card className="bg-black/50 border-primary/20 h-full flex flex-col">
       {item.image ? (
@@ -291,7 +316,7 @@ function NewsCard({
           <CardDescription className="text-gray-400 text-sm mb-4 flex-grow">{item.summary}</CardDescription>
           <Button variant="ghost" size="sm" className="text-primary mt-auto self-start" asChild>
             <Link href={`/news/${item.id}`}>
-              <span>Read More</span>
+              <span>{t.news.readMore}</span>
               <ArrowRight className="h-3 w-3 ml-1" />
             </Link>
           </Button>

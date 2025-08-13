@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/components/language-provider"
 import { ChatButton } from "@/components/chat-button"
 import { JsonLd } from "@/components/json-ld"
 import { generateSEO, generateJSONLD, siteConfig } from "@/lib/seo"
@@ -51,7 +52,7 @@ export default function RootLayout({
   })
 
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth dark" style={{colorScheme: "dark"}} suppressHydrationWarning>
       <head>
         {/* Preconnect to external domains for better performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -68,15 +69,17 @@ export default function RootLayout({
         <JsonLd data={personJsonLd} />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-          <ChatButton />
-          <Toaster 
-            theme="dark"
-            position="bottom-right"
-            expand={false}
-            richColors
-          />
+        <ThemeProvider defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          <LanguageProvider>
+            {children}
+            <ChatButton />
+            <Toaster 
+              theme="dark"
+              position="bottom-right"
+              expand={false}
+              richColors
+            />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

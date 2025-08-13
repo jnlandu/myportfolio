@@ -106,9 +106,9 @@ export function TableOfContents({ content, className }: TableOfContentsProps) {
         </h3>
         <div className="relative flex-1 min-h-0">
           <nav className="space-y-1.5 overflow-y-auto overscroll-contain pr-2 -mr-2 max-h-[60vh] scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500">
-            {tocItems.map(({ id, text, level }) => (
+            {tocItems.map(({ id, text, level }, key) => (
               <a
-                key={id}
+                key={key}
                 href={`#${id}`}
                 className={cn(
                   "block text-sm text-gray-400 hover:text-primary transition-all duration-200 py-1.5 px-2 rounded-md hover:bg-gray-800/50",

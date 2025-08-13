@@ -3,9 +3,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Play, Clock, Calendar, Eye, BookOpen } from "lucide-react"
+import { Play, Clock, Calendar, Eye, BookOpen, Hash } from "lucide-react"
 import Link from "next/link"
 import { BlogPost } from "@/lib/blog"
+import { BlogAnalyticsDisplay } from "@/components/blog-analytics"
 
 interface BlogSectionProps {
   posts?: BlogPost[]
@@ -94,18 +95,39 @@ export function BlogSection({ posts = [] }: BlogSectionProps) {
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-400 mb-4">{post.excerpt}</p>
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {post.tags.map((tag: any) => (
-                        <Badge key={tag} variant="secondary">
+                    
+                    {/* Category and Tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {post.category && (
+                        <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30">
+                          {post.category}
+                        </Badge>
+                      )}
+                      {post.tags.slice(0, 3).map((tag: any) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          <Hash className="h-3 w-3 mr-1" />
                           {tag}
                         </Badge>
                       ))}
+                      {post.tags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{post.tags.length - 3} more
+                        </Badge>
+                      )}
                     </div>
+
+                    {/* Analytics Display */}
+                    <BlogAnalyticsDisplay 
+                      slug={post.id} 
+                      category={post.category}
+                      tags={post.tags}
+                      className="mb-4"
+                    />
                   </CardContent>
                   <CardFooter className="flex justify-between">
                     <div className="flex items-center text-sm text-gray-400">
-                      <Eye className="h-4 w-4 mr-1" />
-                      <span>{post.views.toLocaleString()} views</span>
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>{post.date}</span>
                     </div>
                     <Link href={`/blog/${post.id}`} passHref>
                       <Button size="sm" className="hover:bg-primary/80 transition-colors">Read More</Button>
@@ -183,24 +205,45 @@ function BlogPostCard({ post }: { post: BlogPost }) {
           <Badge variant="secondary" className="text-xs">
             {post.category}
           </Badge>
-          <div className="flex items-center text-xs text-gray-400">
-            <Eye className="h-3 w-3 mr-1" />
-            <span>{post.views.toLocaleString()}</span>
-          </div>
         </div>
         <CardTitle className="text-lg text-primary line-clamp-2">{post.title}</CardTitle>
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
-        <p className="text-gray-400 text-sm line-clamp-3">{post.excerpt}</p>
+        <p className="text-gray-400 text-sm line-clamp-3 mb-3">{post.excerpt}</p>
+        
+        {/* Tags */}
+        {post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-3">
+            {post.tags.slice(0, 2).map((tag) => (
+              <Badge key={tag} variant="outline" className="text-xs">
+                #{tag}
+              </Badge>
+            ))}
+            {post.tags.length > 2 && (
+              <Badge variant="outline" className="text-xs">
+                +{post.tags.length - 2}
+              </Badge>
+            )}
+          </div>
+        )}
+
+        {/* Analytics */}
+        <BlogAnalyticsDisplay 
+          slug={post.id} 
+          category={post.category}
+          tags={post.tags}
+        />
       </CardContent>
       <CardFooter className="pt-2 flex justify-between items-center">
         <div className="flex items-center text-xs text-gray-400">
           <Calendar className="h-3 w-3 mr-1" />
           <span>{post.date}</span>
         </div>
-        <Button size="sm" variant="ghost" className="text-primary">
-          Read More
-        </Button>
+        <Link href={`/blog/${post.id}`}>
+          <Button size="sm" variant="ghost" className="text-primary">
+            Read More
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   )

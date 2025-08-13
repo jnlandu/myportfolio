@@ -1,9 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import { Mail, Twitter, Linkedin, Github, Heart, ArrowUpRight, BookOpen, Briefcase, User, MessageSquare, ExternalLink } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/components/language-provider"
 
 export function Footer() {
+  const t = useTranslation()
+
   return (
     <footer className="bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
       {/* Background pattern */}
@@ -26,8 +31,7 @@ export function Footer() {
                   Jérémie N. Mabiala
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Student in Artificial Intelligence, I hold a Masters in Mathematics. I am  passionate about  technology and interested in advancing artificial intelligence 
-                  research in Africa and building transparent, explainable AI systems.
+                  {t.footer.description}
                 </p>
               </div>
               
@@ -67,25 +71,24 @@ export function Footer() {
             {/* Quick Links */}
             <div className="lg:col-span-1">
               <h4 className="text-lg font-semibold text-white mb-6 flex items-center">
-                {/* <User className="h-5 w-5 mr-2 text-primary" /> */}
-                About Me
+                {t.footer.quickLinks}
               </h4>
               <nav className="space-y-3">
                 <Link href="#home" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ArrowUpRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Home
+                  {t.nav.home}
                 </Link>
                 <Link href="#about" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ArrowUpRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  About
+                  {t.nav.about}
                 </Link>
                 <Link href="#news" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ArrowUpRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  News & Updates
+                  {t.nav.news}
                 </Link>
                 <Link href="#contact" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ArrowUpRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Contact
+                  {t.nav.contact}
                 </Link>
               </nav>
             </div>
@@ -93,25 +96,24 @@ export function Footer() {
             {/* Work Links */}
             <div className="lg:col-span-1">
               <h4 className="text-lg font-semibold text-white mb-6 flex items-center">
-                {/* <Briefcase className="h-5 w-5 mr-2 text-primary" /> */}
-                My Work
+                {t.footer.myWork}
               </h4>
               <nav className="space-y-3">
                 <Link href="#projects" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ArrowUpRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Projects
+                  {t.footer.projects}
                 </Link>
                 <Link href="/blog" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <BookOpen className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Blog & Tutorials
+                  {t.footer.blog}
                 </Link>
                 <Link href="/gallery" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ArrowUpRight className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Gallery
+                  {t.footer.gallery}
                 </Link>
                 <Link href="/news" className="flex items-center text-gray-400 hover:text-primary transition-colors group">
                   <ExternalLink className="h-4 w-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  All News
+                  {t.footer.allNews}
                 </Link>
               </nav>
             </div>
@@ -119,8 +121,7 @@ export function Footer() {
             {/* Resources */}
             <div className="lg:col-span-1">
               <h4 className="text-lg font-semibold text-white mb-6 flex items-center">
-                {/* <MessageSquare className="h-5 w-5 mr-2 text-primary" /> */}
-                Connect
+                {t.footer.connect}
               </h4>
               <div className="space-y-4">
                 <p className="text-gray-400 text-sm leading-relaxed">
@@ -130,13 +131,13 @@ export function Footer() {
                 <Button asChild className="w-full bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/40 text-primary">
                   <Link href="#contact">
                     <Mail className="h-4 w-4 mr-2" />
-                    Get In Touch
+                    {t.footer.getInTouch}
                   </Link>
                 </Button>
                 <div className="text-xs text-gray-500 space-y-1">
-                  <p>📍 Currently based in Senegal</p>
-                  <p>🎓 Student at AIMS</p>
-                  <p>🔬 Focus:  Artificial Intelligence</p>
+                  <p>📍 {t.footer.currentlyBased}</p>
+                  <p>🎓 {t.footer.studentAt}</p>
+                  <p>🔬 {t.footer.focus}</p>
                 </div>
               </div>
             </div>
@@ -150,22 +151,22 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
               <p className="text-gray-400 mb-2">
-                © 2025 <span className="text-primary font-semibold">Jérémie N. Mabiala</span>. All rights reserved.
+                © 2025 <span className="text-primary font-semibold">Jérémie N. Mabiala</span>. {t.footer.copyright}
               </p>
               <p className="text-sm text-gray-500">
-                Built with Next.js, TypeScript, and Tailwind CSS. 
+                {t.footer.builtWith}
                 <Link href="https://github.com/jnlandu/myportfolio" className="text-primary hover:text-primary/80 ml-1">
-                  View source code
+                  {t.footer.viewSource}
                 </Link>
               </p>
             </div>
             
             <div className="flex flex-col items-center md:items-end">
               <p className="flex items-center text-sm text-gray-500 mb-2">
-                Made with <Heart className="h-4 w-4 text-red-400 mx-1 animate-pulse" />.
+                {t.footer.madeWith} <Heart className="h-4 w-4 text-red-400 mx-1 animate-pulse" />.
               </p>
               <p className="text-xs text-gray-600">
-                Feel free to fork this design and make it yours!
+                {t.footer.forkDesign}
               </p>
             </div>
           </div>
