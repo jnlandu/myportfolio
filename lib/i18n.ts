@@ -170,14 +170,15 @@ export const translations: Record<Locale, Translation> = {
     hero: {
       greeting: "Hello, I'm",
       name: "Jérémie N. Mabiala",
-      title: "AI Researcher & PhD Student",
-      description: "Passionate about artificial intelligence, machine learning, and developing innovative solutions that make a positive impact on society.",
+      title: "AI/ML enthusiast, Mathematician.",
+      description: "From Pure Math background to Artificial Intelligence, I'm currently a resident tutor in Artificial Intelligence at the African Masters in Machine Intelligence (AMMI) program",
       viewResume: "View Resume",
       contactMe: "Contact Me"
+  
     },
     about: {
       title: "About Me",
-      description: "I am a PhD student and researcher passionate about artificial intelligence and machine learning. My work focuses on developing innovative AI solutions and advancing the field through research and practical applications.",
+      description: " Hi there! I'm Jérémie 👋. I am an AI enthusiast and mathematician passionate about the intersection of theoretical mathematics and practical AI applications",
       currentRole: "Current Role",
       interests: "Research Interests",
       learnMore: "Learn More",
